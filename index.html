@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fashion Empire Online</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  background:#f8f8f8;
+  color:#222;
+}
+
+/* Header */
+header{
+  background:linear-gradient(135deg,#111,#2d2d2d);
+  color:white;
+  padding:20px;
+  position:sticky;
+  top:0;
+  z-index:1000;
+  box-shadow:0 5px 20px rgba(0,0,0,0.1);
+}
+
+.logo{
+  font-size:28px;
+  font-weight:700;
+  letter-spacing:1px;
+}
+
+.search-box{
+  margin-top:15px;
+}
+
+.search-box input{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  outline:none;
+  font-size:15px;
+}
+
+/* Hero Banner */
+.hero{
+  margin:20px;
+  border-radius:20px;
+  padding:40px 20px;
+  background:linear-gradient(to right,#ffdde1,#ee9ca7);
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+.hero h2{
+  font-size:30px;
+  margin-bottom:10px;
+}
+
+.hero p{
+  font-size:15px;
+  margin-bottom:20px;
+}
+
+.hero button{
+  background:#111;
+  color:white;
+  border:none;
+  padding:12px 28px;
+  border-radius:30px;
+  font-size:15px;
+  cursor:pointer;
+}
+
+/* Categories */
+.categories{
+  padding:20px;
+}
+
+.section-title{
+  font-size:22px;
+  font-weight:600;
+  margin-bottom:15px;
+}
+
+.category-list{
+  display:flex;
+  gap:15px;
+  overflow-x:auto;
+}
+
+.category{
+  min-width:90px;
+  text-align:center;
+}
+
+.circle{
+  width:70px;
+  height:70px;
+  border-radius:50%;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 8px 20px rgba(0,0,0,0.06);
+  margin:auto;
+  font-size:13px;
+  font-weight:500;
+}
+
+.category p{
+  margin-top:8px;
+  font-size:13px;
+}
+
+/* Products */
+.products{
+  padding:20px;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:18px;
+}
+
+.card{
+  background:white;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 10px 25px rgba(0,0,0,0.05);
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:translateY(-5px);
+}
+
+.image{
+  height:180px;
+  background:linear-gradient(135deg,#ddd,#f3f3f3);
+}
+
+.info{
+  padding:15px;
+}
+
+.info h3{
+  font-size:15px;
+  margin-bottom:8px;
+}
+
+.price{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.new{
+  font-weight:700;
+  font-size:18px;
+}
+
+.old{
+  text-decoration:line-through;
+  color:gray;
+  font-size:14px;
+}
+
+.discount{
+  color:green;
+  font-size:14px;
+  margin-top:5px;
+}
+
+.rating{
+  margin-top:5px;
+  font-size:14px;
+}
+
+/* Footer */
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  background:white;
+  padding:15px;
+  display:flex;
+  justify-content:space-around;
+  box-shadow:0 -5px 20px rgba(0,0,0,0.08);
+}
+
+.bottom-nav button{
+  border:none;
+  background:none;
+  font-weight:500;
+  cursor:pointer;
+}
+
+/* Mobile */
+@media(max-width:500px){
+  .hero h2{
+    font-size:24px;
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">FASHION EMPIRE ONLINE</div>
+
+  <div class="search-box">
+    <input type="text" placeholder="Search menswear, womenwear, bags...">
+  </div>
+</header>
+
+<section class="hero">
+  <h2>Luxury Fashion Sale</h2>
+  <p>Best Clothes + Accessories at Lowest Prices</p>
+  <button>Shop Now</button>
+</section>
+
+<section class="categories">
+  <div class="section-title">Categories</div>
+
+  <div class="category-list">
+
+    <div class="category">
+      <div class="circle">Menswear</div>
+      <p>Menswear</p>
+    </div>
+
+    <div class="category">
+      <div class="circle">Womenwear</div>
+      <p>Womenwear</p>
+    </div>
+
+    <div class="category">
+      <div class="circle">Bags</div>
+      <p>Bags</p>
+    </div>
+
+    <div class="category">
+      <div class="circle">Watch</div>
+      <p>Watch</p>
+    </div>
+
+    <div class="category">
+      <div class="circle">Shoes</div>
+      <p>Shoes</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="products">
+
+  <div class="card">
+    <div class="image"></div>
+    <div class="info">
+      <h3>Women Floral Dress</h3>
+      <div class="price">
+        <span class="new">₹299</span>
+        <span class="old">₹499</span>
+      </div>
+      <div class="discount">40% OFF</div>
+      <div class="rating">⭐ 4.5</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="image"></div>
+    <div class="info">
+      <h3>Luxury Handbag</h3>
+      <div class="price">
+        <span class="new">₹499</span>
+        <span class="old">₹799</span>
+      </div>
+      <div class="discount">38% OFF</div>
+      <div class="rating">⭐ 4.7</div>
+    </div>
+  </div>
+
+</section>
+
+<footer class="bottom-nav">
+  <button>Home</button>
+  <button>Shop</button>
+  <button>Orders</button>
+  <button>Profile</button>
+</footer>
+
+</body>
+</html>

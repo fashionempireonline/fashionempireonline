@@ -1,0 +1,50 @@
+{ margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+
+
+body { background: #f7f7f7; }
+
+header { background: #ffffff; padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
+
+.logo { font-size: 24px; font-weight: bold; letter-spacing: 1px; }
+
+.search-box { margin-top: 15px; }
+
+.search-box input { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 12px; font-size: 14px; }
+
+.delivery { background: #fff; padding: 12px 15px; border-bottom: 1px solid #eee; font-weight: 500; }
+
+.categories { background: #fff; padding: 15px; display: flex; gap: 15px; overflow-x: auto; }
+
+.category-item { min-width: 80px; text-align: center; }
+
+.category-circle { width: 60px; height: 60px; background: #eaeaea; border-radius: 50%; margin: auto; }
+
+.category-item p { font-size: 12px; margin-top: 8px; }
+
+.filters { background: #fff; display: flex; justify-content: space-around; padding: 12px; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
+
+.filters button { background: none; border: none; font-size: 14px; cursor: pointer; }
+
+.products { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; }
+
+.product-card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+
+.product-image { height: 220px; background: #ddd; }
+
+.product-info { padding: 12px; }
+
+.product-title { font-size: 14px; font-weight: 500; margin-bottom: 8px; }
+
+.price { font-size: 18px; font-weight: bold; }
+
+.old-price { text-decoration: line-through; color: gray; font-size: 14px; margin-left: 8px; }
+
+.discount { color: green; font-size: 13px; margin-top: 5px; }
+
+.rating { margin-top: 8px; font-size: 14px; }
+
+.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid #eee; display: flex; justify-content: space-around; padding: 12px; }
+
+.bottom-nav button { background: none; border: none; font-size: 14px; cursor: pointer; }
+
+@media (max-width: 768px) { .products { grid-template-columns: repeat(2, 1fr); } }
