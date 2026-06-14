@@ -3,298 +3,368 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fashion Empire Online</title>
+<title>Fashion Empire Online | Trendy Fashion Store</title>
+<meta name="description" content="Buy trendy fashion clothes online at Fashion Empire." />
 
+<!-- OG META TAGS — WhatsApp, Instagram, Telegram, Facebook preview ke liye -->
+<meta property="og:title"        content="Fashion Empire | Premium Fashion Store" />
+<meta property="og:description"  content="Trendy clothes, shoes, bags &amp; accessories. Premium reseller quality at best prices. Order on WhatsApp!" />
+<meta property="og:image"        content="https://fashionempireonline.vercel.app/images/icon-512.png" />
+<meta property="og:image:width"  content="512" />
+<meta property="og:image:height" content="512" />
+<meta property="og:url"          content="https://fashionempireonline.vercel.app/" />
+<meta property="og:type"         content="website" />
+<meta property="og:site_name"    content="Fashion Empire" />
+<meta property="og:locale"       content="en_IN" />
+<!-- Twitter Card -->
+<meta name="twitter:card"        content="summary_large_image" />
+<meta name="twitter:title"       content="Fashion Empire | Premium Fashion Store" />
+<meta name="twitter:description" content="Trendy clothes, shoes, bags &amp; accessories at best prices." />
+<meta name="twitter:image"       content="https://fashionempireonline.vercel.app/images/icon-512.png" />
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#ff416c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Fashion Empire">
+<link rel="apple-touch-icon" href="images/icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Poppins',sans-serif;
-}
-
-body{
-  background:#f8f8f8;
-  color:#222;
-}
-
-/* Header */
-header{
-  background:linear-gradient(135deg,#111,#2d2d2d);
-  color:white;
-  padding:20px;
-  position:sticky;
-  top:0;
-  z-index:1000;
-  box-shadow:0 5px 20px rgba(0,0,0,0.1);
-}
-
-.logo{
-  font-size:28px;
-  font-weight:700;
-  letter-spacing:1px;
-}
-
-.search-box{
-  margin-top:15px;
-}
-
-.search-box input{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:14px;
-  outline:none;
-  font-size:15px;
-}
-
-/* Hero Banner */
-.hero{
-  margin:20px;
-  border-radius:20px;
-  padding:40px 20px;
-  background:linear-gradient(to right,#ffdde1,#ee9ca7);
-  text-align:center;
-  box-shadow:0 10px 30px rgba(0,0,0,0.08);
-}
-
-.hero h2{
-  font-size:30px;
-  margin-bottom:10px;
-}
-
-.hero p{
-  font-size:15px;
-  margin-bottom:20px;
-}
-
-.hero button{
-  background:#111;
-  color:white;
-  border:none;
-  padding:12px 28px;
-  border-radius:30px;
-  font-size:15px;
-  cursor:pointer;
-}
-
-/* Categories */
-.categories{
-  padding:20px;
-}
-
-.section-title{
-  font-size:22px;
-  font-weight:600;
-  margin-bottom:15px;
-}
-
-.category-list{
-  display:flex;
-  gap:15px;
-  overflow-x:auto;
-}
-
-.category{
-  min-width:90px;
-  text-align:center;
-}
-
-.circle{
-  width:70px;
-  height:70px;
-  border-radius:50%;
-  background:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 8px 20px rgba(0,0,0,0.06);
-  margin:auto;
-  font-size:13px;
-  font-weight:500;
-}
-
-.category p{
-  margin-top:8px;
-  font-size:13px;
-}
-
-/* Products */
-.products{
-  padding:20px;
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:18px;
-}
-
-.card{
-  background:white;
-  border-radius:18px;
-  overflow:hidden;
-  box-shadow:0 10px 25px rgba(0,0,0,0.05);
-  transition:0.3s;
-}
-
-.card:hover{
-  transform:translateY(-5px);
-}
-
-.image{
-  height:180px;
-  background:linear-gradient(135deg,#ddd,#f3f3f3);
-}
-
-.info{
-  padding:15px;
-}
-
-.info h3{
-  font-size:15px;
-  margin-bottom:8px;
-}
-
-.price{
-  display:flex;
-  gap:10px;
-  align-items:center;
-}
-
-.new{
-  font-weight:700;
-  font-size:18px;
-}
-
-.old{
-  text-decoration:line-through;
-  color:gray;
-  font-size:14px;
-}
-
-.discount{
-  color:green;
-  font-size:14px;
-  margin-top:5px;
-}
-
-.rating{
-  margin-top:5px;
-  font-size:14px;
-}
-
-/* Footer */
-.bottom-nav{
-  position:fixed;
-  bottom:0;
-  width:100%;
-  background:white;
-  padding:15px;
-  display:flex;
-  justify-content:space-around;
-  box-shadow:0 -5px 20px rgba(0,0,0,0.08);
-}
-
-.bottom-nav button{
-  border:none;
-  background:none;
-  font-weight:500;
-  cursor:pointer;
-}
-
-/* Mobile */
-@media(max-width:500px){
-  .hero h2{
-    font-size:24px;
-  }
-}
-</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="icon" href="images/favicon.ico">
 </head>
 <body>
 
-<header>
-  <div class="logo">FASHION EMPIRE ONLINE</div>
+<!-- LOADER -->
+<div class="loader" id="loader">
+  <div class="loader-box">
+    <div class="loader-ring"></div>
+    <h2>Fashion Empire</h2>
+    <p>Loading Premium Fashion...</p>
+  </div>
+</div>
 
-  <div class="search-box">
-    <input type="text" placeholder="Search menswear, womenwear, bags...">
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
+
+<!-- PWA INSTALL BANNER -->
+<div class="pwa-banner" id="pwaBanner" style="display:none;">
+  <div class="pwa-banner-inner">
+    <i class="fa-solid fa-mobile-screen"></i>
+    <span>App jaisi feel ke liye install karo!</span>
+    <button onclick="installPWA()" class="pwa-install-btn">Install</button>
+    <button onclick="dismissPWA()" class="pwa-dismiss-btn">✕</button>
+  </div>
+</div>
+
+<!-- PROMO BANNER -->
+<div class="promo-bar">
+  <div class="promo-track">
+    🔥 FREE DELIVERY on orders above ₹999 &nbsp;|&nbsp;
+    ✨ New Arrivals Every Week &nbsp;|&nbsp;
+    💬 WhatsApp par order karo &nbsp;|&nbsp;
+    🎁 Regular customers ko special discounts &nbsp;|&nbsp;
+    👑 Premium Reseller Quality &nbsp;|&nbsp;
+    🔥 FREE DELIVERY on orders above ₹999 &nbsp;|&nbsp;
+    ✨ New Arrivals Every Week &nbsp;|&nbsp;
+    💬 WhatsApp par order karo &nbsp;|&nbsp;
+    🎁 Regular customers ko special discounts &nbsp;|&nbsp;
+    👑 Premium Reseller Quality &nbsp;|&nbsp;
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="navbar">
+    <div class="logo"><i class="fa-solid fa-crown"></i> FASHION EMPIRE</div>
+    <div class="search-box">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="searchInput" placeholder="Search premium products..." onkeyup="searchProducts()">
+    </div>
+    <div class="desktop-user" id="desktopUser">
+      <a href="login.html" id="desktopLoginBtn"><i class="fa-solid fa-user"></i> Login</a>
+    </div>
   </div>
 </header>
 
+<!-- HERO -->
 <section class="hero">
-  <h2>Luxury Fashion Sale</h2>
-  <p>Best Clothes + Accessories at Lowest Prices</p>
-  <button>Shop Now</button>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🔥 TRENDING FASHION STORE</div>
+    <h1>Upgrade Your Fashion Style</h1>
+    <p>Luxury fashion collection for modern lifestyle.<br>Premium clothes, shoes, bags & accessories.</p>
+    <div class="hero-buttons">
+      <button class="shop-btn" onclick="scrollToProducts()">Shop Collection</button>
+      <button class="explore-btn" onclick="scrollToProducts()">Explore Trends</button>
+    </div>
+  </div>
 </section>
 
+<!-- FEATURES -->
+<section class="features">
+  <div class="feature-box"><i class="fa-solid fa-truck-fast"></i><h3>Fast Delivery</h3><p>Quick WhatsApp support</p></div>
+  <div class="feature-box"><i class="fa-solid fa-shield-heart"></i><h3>Trusted Products</h3><p>Premium reseller quality</p></div>
+  <div class="feature-box"><i class="fa-solid fa-headset"></i><h3>24/7 Support</h3><p>Direct WhatsApp assistance</p></div>
+</section>
+
+<!-- CATEGORY -->
 <section class="categories">
-  <div class="section-title">Categories</div>
-
+  <div class="section-header">
+    <h2 class="section-title">Shop By Categories</h2>
+    <p>Discover premium fashion collections</p>
+  </div>
   <div class="category-list">
-
-    <div class="category">
-      <div class="circle">Menswear</div>
-      <p>Menswear</p>
-    </div>
-
-    <div class="category">
-      <div class="circle">Womenwear</div>
-      <p>Womenwear</p>
-    </div>
-
-    <div class="category">
-      <div class="circle">Bags</div>
-      <p>Bags</p>
-    </div>
-
-    <div class="category">
-      <div class="circle">Watch</div>
-      <p>Watch</p>
-    </div>
-
-    <div class="category">
-      <div class="circle">Shoes</div>
-      <p>Shoes</p>
-    </div>
-
+    <div class="category active-cat" onclick="filterCategory('all',this)"><div class="circle all-icon"><i class="fa-solid fa-layer-group"></i></div><p>All</p></div>
+    <div class="category" onclick="filterCategory('menswear',this)"><div class="circle men-icon"><i class="fa-solid fa-shirt"></i></div><p>Menswear</p></div>
+    <div class="category" onclick="filterCategory('womenwear',this)"><div class="circle women-icon"><i class="fa-solid fa-person-dress"></i></div><p>Womenwear</p></div>
+    <div class="category" onclick="filterCategory('shoes',this)"><div class="circle shoes-icon"><i class="fa-solid fa-shoe-prints"></i></div><p>Shoes</p></div>
+    <div class="category" onclick="filterCategory('bags',this)"><div class="circle bag-icon"><i class="fa-solid fa-bag-shopping"></i></div><p>Bags</p></div>
+    <div class="category" onclick="filterCategory('watches',this)"><div class="circle watch-icon"><i class="fa-solid fa-clock"></i></div><p>Watches</p></div>
+    <div class="category" onclick="filterCategory('sunglasses',this)"><div class="circle glass-icon"><i class="fa-solid fa-glasses"></i></div><p>Sunglasses</p></div>
   </div>
 </section>
 
-<section class="products">
-
-  <div class="card">
-    <div class="image"></div>
-    <div class="info">
-      <h3>Women Floral Dress</h3>
-      <div class="price">
-        <span class="new">₹299</span>
-        <span class="old">₹499</span>
-      </div>
-      <div class="discount">40% OFF</div>
-      <div class="rating">⭐ 4.5</div>
-    </div>
+<!-- TRENDING + CONTROLS -->
+<section class="trending">
+  <div class="section-header">
+    <h2 class="section-title">🔥 Trending Products</h2>
+    <p>Best selling fashion products</p>
   </div>
-
-  <div class="card">
-    <div class="image"></div>
-    <div class="info">
-      <h3>Luxury Handbag</h3>
-      <div class="price">
-        <span class="new">₹499</span>
-        <span class="old">₹799</span>
-      </div>
-      <div class="discount">38% OFF</div>
-      <div class="rating">⭐ 4.7</div>
-    </div>
+  <div class="products-controls">
+    <button class="filter-btn" onclick="openFilterPanel()">
+      <i class="fa-solid fa-sliders"></i> Filters
+    </button>
+    <select id="sortSelect" onchange="sortProducts()">
+      <option value="default">Sort By</option>
+      <option value="low">💰 Price: Low to High</option>
+      <option value="high">💎 Price: High to Low</option>
+      <option value="new">✨ New Arrivals</option>
+    </select>
   </div>
-
 </section>
 
-<footer class="bottom-nav">
-  <button>Home</button>
-  <button>Shop</button>
-  <button>Orders</button>
-  <button>Profile</button>
+<!-- FILTER PANEL -->
+<div class="filter-overlay" id="filterOverlay" onclick="closeFilterPanel()"></div>
+<div class="filter-panel" id="filterPanel">
+  <div class="filter-panel-header">
+    <h3><i class="fa-solid fa-sliders"></i> Advanced Filters</h3>
+    <span onclick="closeFilterPanel()" style="cursor:pointer;font-size:20px;">✕</span>
+  </div>
+  <div class="filter-group">
+    <label>Category</label>
+    <select id="filterCategory">
+      <option value="all">All Categories</option>
+      <option value="menswear">Menswear</option>
+      <option value="womenwear">Womenwear</option>
+      <option value="shoes">Shoes</option>
+      <option value="bags">Bags</option>
+      <option value="watches">Watches</option>
+      <option value="sunglasses">Sunglasses</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <label>Price Range (₹)</label>
+    <div class="price-range-row">
+      <input type="number" id="filterMinPrice" placeholder="Min ₹">
+      <span>—</span>
+      <input type="number" id="filterMaxPrice" placeholder="Max ₹">
+    </div>
+  </div>
+  <div class="filter-group">
+    <label class="checkbox-label">
+      <input type="checkbox" id="filterDiscount">
+      <span>Sirf discounted products</span>
+    </label>
+  </div>
+  <div class="filter-actions">
+    <button class="filter-apply-btn" onclick="applyFilters()"><i class="fa-solid fa-check"></i> Apply</button>
+    <button class="filter-clear-btn" onclick="clearFilters()"><i class="fa-solid fa-rotate-left"></i> Clear</button>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<section class="products" id="products"></section>
+
+<!-- RECOMMENDED SECTION -->
+<section class="recommended-section" id="recommendedSection" style="display:none;">
+  <div class="section-header">
+    <h2 class="section-title">🎯 Recommended For You</h2>
+    <p>Aapki pasand ke hisaab se</p>
+  </div>
+  <div class="products" id="recommendedGrid"></div>
+</section>
+
+<!-- WISHLIST POPUP -->
+<div class="cart-popup" id="wishlistPopup">
+  <div class="cart-header">
+    <h2><i class="fa-solid fa-heart"></i> My Wishlist</h2>
+    <span onclick="closeWishlist()">✕</span>
+  </div>
+  <div id="wishlist-items"><p class="empty-msg">💔 Wishlist is empty</p></div>
+  <button onclick="closeWishlist()" class="close-cart">Continue Shopping</button>
+</div>
+
+<!-- CART -->
+<div class="cart-popup" id="cartPopup">
+  <div class="cart-header">
+    <h2><i class="fa-solid fa-cart-shopping"></i> Shopping Cart</h2>
+    <span onclick="closeCart()">✕</span>
+  </div>
+  <div id="cart-items"><p class="empty-msg">🛒 Cart is empty</p></div>
+  <div id="cart-footer" style="display:none;">
+    <div class="cart-total">
+      <span>Total:</span>
+      <span id="cart-total-price">₹0</span>
+    </div>
+    <button class="checkout-wa-btn" onclick="checkoutWhatsApp()">
+      <i class="fa-brands fa-whatsapp"></i> Order on WhatsApp
+    </button>
+  </div>
+  <button onclick="closeCart()" class="close-cart">Continue Shopping</button>
+</div>
+
+<!-- USER DROPDOWN -->
+<div class="user-dropdown" id="userDropdown">
+  <div class="user-dropdown-inner">
+    <p class="user-greeting">👋 Hi, <span id="dropdownName">User</span>!</p>
+    <button onclick="logoutUser()" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+  </div>
+</div>
+
+<!-- FLOATING WHATSAPP -->
+<a href="https://wa.me/919174709695" target="_blank" class="floating-whatsapp">
+  <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<!-- MOBILE NAVBAR -->
+<div class="mobile-navbar">
+  <div class="mobile-nav-item" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <i class="fa-solid fa-house"></i><p>Home</p>
+  </div>
+  <div class="mobile-nav-item" onclick="openWishlist()">
+    <i class="fa-solid fa-heart"></i><p>Wishlist</p>
+    <span class="nav-badge" id="wishlistBadge" style="display:none;">0</span>
+  </div>
+  <div class="mobile-nav-item" onclick="openCart()">
+    <i class="fa-solid fa-cart-shopping"></i><p>Cart</p>
+    <span class="nav-badge" id="cartBadge" style="display:none;">0</span>
+  </div>
+  <div class="mobile-nav-item" id="mobileAccountBtn" onclick="handleAccountClick()">
+    <i class="fa-solid fa-user"></i><p id="mobileAccountLabel">Account</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-content">
+    <h2>FASHION EMPIRE</h2>
+    <p>Premium reseller fashion store with stylish collections.</p>
+    <div class="footer-socials">
+      <a href="https://instagram.com/_fashion_empire_online_" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+      <a href="https://wa.me/919174709695" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+    </div>
+    <p class="copyright">© 2026 Fashion Empire. All Rights Reserved.</p>
+  </div>
 </footer>
 
+<script>
+// PWA
+let deferredPrompt;
+window.addEventListener("beforeinstallprompt", e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  if(!localStorage.getItem("fe_pwa_dismissed")){
+    setTimeout(()=>{ document.getElementById("pwaBanner").style.display="flex"; }, 3000);
+  }
+});
+window.installPWA = async function(){
+  if(!deferredPrompt) return;
+  deferredPrompt.prompt();
+  let res = await deferredPrompt.userChoice;
+  if(res.outcome === "accepted") showToast("✅ App install ho rahi hai!");
+  deferredPrompt = null;
+  document.getElementById("pwaBanner").style.display = "none";
+};
+window.dismissPWA = function(){
+  document.getElementById("pwaBanner").style.display = "none";
+  localStorage.setItem("fe_pwa_dismissed","1");
+};
+
+// Service Worker + Push Notifications
+if("serviceWorker" in navigator){
+  navigator.serviceWorker.register("/sw.js")
+    .then(reg => {
+      window._swReg = reg;
+      // Ask notification permission after 5 seconds
+      setTimeout(()=>{
+        if(Notification.permission === "default"){
+          Notification.requestPermission().then(perm => {
+            if(perm === "granted"){
+              showToast("🔔 Notifications on! Naye products ka pata chalega.");
+            }
+          });
+        }
+      }, 5000);
+    })
+    .catch(()=>{});
+}
+
+// Loader
+window.addEventListener("load", function(){
+  setTimeout(()=>{
+    document.getElementById("loader").style.opacity="0";
+    setTimeout(()=>{ document.getElementById("loader").style.display="none"; }, 500);
+  }, 1200);
+
+  // User session
+  let userName = localStorage.getItem("fe_userName");
+  if(userName){
+    let first = userName.split(" ")[0];
+    let loginBtn = document.getElementById("desktopLoginBtn");
+    let mLabel   = document.getElementById("mobileAccountLabel");
+    let dName    = document.getElementById("dropdownName");
+    if(loginBtn) loginBtn.innerHTML = `<i class="fa-solid fa-user"></i> ${first}`;
+    if(mLabel)   mLabel.innerText = first;
+    if(dName)    dName.innerText  = first;
+  }
+});
+
+function scrollToProducts(){ document.getElementById("products").scrollIntoView({behavior:"smooth"}); }
+
+function handleAccountClick(){
+  if(localStorage.getItem("fe_userName")){
+    document.getElementById("userDropdown").classList.toggle("show");
+  } else {
+    window.location.href = "login.html";
+  }
+}
+
+document.addEventListener("click", function(e){
+  let d  = document.getElementById("userDropdown");
+  let b  = document.getElementById("mobileAccountBtn");
+  let db = document.getElementById("desktopLoginBtn");
+  if(d && !d.contains(e.target) && b && !b.contains(e.target) && db && !db.contains(e.target)){
+    d.classList.remove("show");
+  }
+});
+
+document.getElementById("desktopLoginBtn").addEventListener("click", function(e){
+  if(localStorage.getItem("fe_userName")){
+    e.preventDefault();
+    document.getElementById("userDropdown").classList.toggle("show");
+  }
+});
+
+// Filter panel overlay close
+window.closeFilterPanel = function(){
+  document.getElementById("filterPanel").classList.remove("open");
+  document.getElementById("filterOverlay").classList.remove("open");
+};
+window.openFilterPanel = function(){
+  document.getElementById("filterPanel").classList.add("open");
+  document.getElementById("filterOverlay").classList.add("open");
+};
+</script>
+
+<script type="module" src="script.js"></script>
 </body>
 </html>

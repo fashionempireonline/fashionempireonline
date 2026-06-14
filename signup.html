@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up | Fashion Empire</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="auth-page">
+
+<div class="auth-box" style="animation:fadeInUp 0.5s ease both;">
+  <div class="auth-logo">
+    <i class="fa-solid fa-crown"></i> FASHION EMPIRE
+  </div>
+  <h2>Create Account 🎉</h2>
+  <p class="auth-sub">Naya account banayein aur shopping enjoy karein</p>
+
+  <div class="input-group">
+    <i class="fa-solid fa-user"></i>
+    <input type="text" id="signupName" placeholder="Full Name">
+  </div>
+  <div class="input-group">
+    <i class="fa-solid fa-envelope"></i>
+    <input type="email" id="signupEmail" placeholder="Enter Email">
+  </div>
+  <div class="input-group">
+    <i class="fa-solid fa-lock"></i>
+    <input type="password" id="signupPassword" placeholder="Password (min 6 chars)">
+  </div>
+
+  <p id="signupError"   class="auth-error"   style="display:none;"></p>
+  <p id="signupSuccess" class="auth-success" style="display:none;"></p>
+
+  <button class="auth-btn" onclick="signupUser()">
+    <span id="signupBtnText">Create Account</span>
+  </button>
+
+  <p class="auth-link">Pehle se account hai? <a href="login.html">Login</a></p>
+  <p class="auth-link"><a href="index.html"><i class="fa-solid fa-arrow-left"></i> Back to Store</a></p>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+
+const app = initializeApp({
+  apiKey: "AIzaSyBw6dKBEDGfuh-he23WHJGG-L6mRDH_lFo",
+  authDomain: "fashion-empire-online.firebaseapp.com",
+  projectId: "fashion-empire-online",
+  storageBucket: "fashion-empire-online.firebasestorage.app",
+  messagingSenderId: "270445447440",
+  appId: "1:270445447440:web:17b31b34a0bbecbe87bd95"
+});
+const auth = getAuth(app);
+
+window.signupUser = async function(){
+  let name     = document.getElementById("signupName").value.trim();
+  let email    = document.getElementById("signupEmail").value.trim();
+  let password = document.getElementById("signupPassword").value;
+  let errEl    = document.getElementById("signupError");
+  let succEl   = document.getElementById("signupSuccess");
+  let btn      = document.getElementById("signupBtnText");
+
+  errEl.style.display = "none";
+  succEl.style.display = "none";
+
+  if(!name || !email || !password){
+    errEl.innerText = "Sab fields fill karein.";
+    errEl.style.display = "block"; return;
+  }
+  if(password.length < 6){
+    errEl.innerText = "Password kam se kam 6 characters ka hona chahiye.";
+    errEl.style.display = "block"; return;
+  }
+
+  btn.innerText = "Creating...";
+  try {
+    let userCred = await createUserWithEmailAndPassword(auth, email, password);
+    await updateProfile(userCred.user, { displayName: name });
+    localStorage.setItem("fe_userName",  name);
+    localStorage.setItem("fe_userEmail", email);
+    succEl.innerText = "✅ Account ban gaya! Login ho rahe hain...";
+    succEl.style.display = "block";
+    setTimeout(()=>{ window.location.href = "index.html"; }, 1500);
+  } catch(err){
+    btn.innerText = "Create Account";
+    let msgs = {
+      "auth/email-already-in-use": "Ye email already registered hai.",
+      "auth/invalid-email":        "Email format sahi nahi hai.",
+      "auth/weak-password":        "Password aur strong banao."
+    };
+    errEl.innerText = msgs[err.code] || "Signup failed. Try again.";
+    errEl.style.display = "block";
+  }
+};
+
+document.addEventListener("keydown", e => { if(e.key === "Enter") signupUser(); });
+</script>
+</body>
+</html>

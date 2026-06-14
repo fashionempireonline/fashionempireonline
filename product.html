@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product | Fashion Empire</title>
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#ff416c">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<meta property="og:title"        content="Fashion Empire | Premium Product" id="ogTitle" />
+<meta property="og:description"  content="Premium quality fashion. Order on WhatsApp!" id="ogDesc" />
+<meta property="og:image"        content="https://fashionempireonline.vercel.app/images/icon-512.png" id="ogImage" />
+<meta property="og:type"         content="product" />
+<meta property="og:site_name"    content="Fashion Empire" />
+<style>
+/* ===================== SHARE PANEL ===================== */
+.share-panel-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:99998;opacity:0;pointer-events:none;transition:0.3s;}
+.share-panel-overlay.open{opacity:1;pointer-events:all;}
+.share-panel{position:fixed;bottom:-500px;left:0;right:0;background:white;border-radius:28px 28px 0 0;z-index:99999;padding:28px 24px 44px;transition:bottom 0.35s cubic-bezier(0.4,0,0.2,1);box-shadow:0 -10px 40px rgba(0,0,0,0.15);}
+.share-panel.open{bottom:0;}
+.share-panel h3{font-size:18px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.share-panel h3 i{color:#ff416c;}
+.share-product-preview{display:flex;align-items:center;gap:14px;background:#f9f9f9;border-radius:16px;padding:14px;margin-bottom:20px;}
+.share-product-preview img{width:60px;height:60px;object-fit:cover;border-radius:12px;flex-shrink:0;}
+.share-product-preview h4{font-size:14px;font-weight:700;margin-bottom:4px;}
+.share-product-preview p{font-size:13px;color:#ff416c;font-weight:700;}
+.share-options{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;}
+.share-opt{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;transition:0.2s;}
+.share-opt:hover{transform:translateY(-4px);}
+.share-icon{width:58px;height:58px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:26px;}
+.share-opt p{font-size:12px;font-weight:600;color:#444;text-align:center;}
+.share-wa   .share-icon{background:#e8fff2;color:#25D366;}
+.share-tele .share-icon{background:#e8f4ff;color:#0088cc;}
+.share-copy .share-icon{background:#f0f4ff;color:#0066cc;}
+.share-more .share-icon{background:#f5f5f5;color:#555;}
+.share-link-box{display:flex;align-items:center;gap:10px;background:#f7f7f7;border-radius:14px;padding:12px 16px;margin-bottom:14px;}
+.share-link-box span{flex:1;font-size:12px;color:#555;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.copy-link-btn{padding:8px 16px;background:linear-gradient(135deg,#ff416c,#ff4b2b);color:white;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;white-space:nowrap;transition:0.2s;}
+.copy-link-btn:hover{transform:scale(1.05);}
+.share-close-btn{width:100%;padding:14px;background:#f0f0f0;color:#555;border:none;border-radius:14px;font-size:15px;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;transition:0.2s;}
+.share-close-btn:hover{background:#e0e0e0;}
+
+/* ===================== SIZE SELECTOR ===================== */
+.size-section{margin:16px 0;}
+.size-label{font-size:13px;font-weight:700;color:#555;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;}
+.size-label a{font-size:12px;color:#ff416c;cursor:pointer;font-weight:600;text-decoration:none;}
+.size-label a:hover{text-decoration:underline;}
+.size-buttons{display:flex;flex-wrap:wrap;gap:10px;}
+.size-btn{
+  min-width:48px;height:44px;padding:0 14px;
+  border:2px solid #eee;border-radius:12px;
+  background:white;font-family:'Poppins',sans-serif;
+  font-size:14px;font-weight:600;color:#333;
+  cursor:pointer;transition:0.2s;
+  display:flex;align-items:center;justify-content:center;
+}
+.size-btn:hover{border-color:#ff416c;color:#ff416c;}
+.size-btn.selected{
+  border-color:#ff416c;background:#ff416c;color:white;
+  box-shadow:0 4px 12px rgba(255,65,108,0.3);
+  transform:scale(1.05);
+}
+.size-btn.out-of-stock{
+  background:#f5f5f5;color:#ccc;border-color:#eee;
+  cursor:not-allowed;text-decoration:line-through;
+}
+
+/* SIZE CHART MODAL */
+.size-chart-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;opacity:0;pointer-events:none;transition:0.3s;display:flex;align-items:flex-end;}
+.size-chart-overlay.open{opacity:1;pointer-events:all;}
+.size-chart-box{
+  background:white;width:100%;border-radius:28px 28px 0 0;
+  padding:28px 20px 44px;max-height:85vh;overflow-y:auto;
+  animation:slideUp 0.35s ease;
+}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.size-chart-box h3{font-size:18px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.size-chart-box h3 i{color:#ff416c;}
+.size-table{width:100%;border-collapse:collapse;margin-bottom:16px;}
+.size-table th{background:#fff0f3;color:#ff416c;font-size:13px;font-weight:700;padding:10px 12px;text-align:center;}
+.size-table td{padding:10px 12px;text-align:center;font-size:13px;border-bottom:1px solid #f5f5f5;}
+.size-table tr:hover td{background:#fafafa;}
+.size-tip{background:#fff8f0;border-radius:14px;padding:14px 16px;font-size:13px;color:#777;line-height:1.7;margin-bottom:16px;}
+.size-tip strong{color:#ff416c;}
+.size-chart-close{width:100%;padding:14px;background:#f0f0f0;border:none;border-radius:14px;font-size:15px;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;color:#555;}
+
+/* ===================== COD ORDER MODAL ===================== */
+.cod-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;opacity:0;pointer-events:none;transition:0.3s;display:flex;align-items:flex-end;}
+.cod-overlay.open{opacity:1;pointer-events:all;}
+.cod-box{
+  background:white;width:100%;border-radius:28px 28px 0 0;
+  padding:28px 20px 44px;max-height:92vh;overflow-y:auto;
+  animation:slideUp 0.35s ease;
+}
+.cod-box h3{font-size:19px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px;}
+.cod-box h3 i{color:#ff416c;}
+.cod-product-bar{display:flex;align-items:center;gap:14px;background:#fff5f7;border-radius:16px;padding:14px;margin-bottom:22px;}
+.cod-product-bar img{width:56px;height:56px;object-fit:cover;border-radius:12px;flex-shrink:0;}
+.cod-product-bar h4{font-size:14px;font-weight:700;margin-bottom:4px;}
+.cod-product-bar p{font-size:14px;color:#ff416c;font-weight:700;}
+.cod-product-bar .cod-size-badge{font-size:12px;background:#ff416c;color:white;padding:2px 10px;border-radius:20px;display:inline-block;margin-top:4px;}
+.cod-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+@media(max-width:480px){.cod-form-grid{grid-template-columns:1fr;}}
+.cod-fg{display:flex;flex-direction:column;gap:6px;}
+.cod-fg label{font-size:12px;font-weight:700;color:#555;}
+.cod-fg input,.cod-fg textarea,.cod-fg select{
+  padding:12px 14px;border:2px solid #eee;border-radius:12px;
+  font-family:'Poppins',sans-serif;font-size:14px;outline:none;
+  transition:0.3s;width:100%;box-sizing:border-box;
+}
+.cod-fg input:focus,.cod-fg textarea:focus,.cod-fg select:focus{border-color:#ff416c;}
+.cod-full{grid-column:1/-1;}
+.cod-submit-btn{
+  width:100%;padding:16px;
+  background:linear-gradient(135deg,#ff416c,#ff4b2b);
+  color:white;border:none;border-radius:16px;
+  font-size:16px;font-weight:700;cursor:pointer;
+  font-family:'Poppins',sans-serif;transition:0.3s;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  margin-top:4px;
+}
+.cod-submit-btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(255,65,108,0.35);}
+.cod-cancel-btn{width:100%;padding:13px;background:#f0f0f0;border:none;border-radius:14px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;color:#555;margin-top:10px;}
+.cod-success-box{text-align:center;padding:20px 10px;}
+.cod-success-box i{font-size:52px;color:#00a854;margin-bottom:14px;display:block;}
+.cod-success-box h3{font-size:20px;font-weight:700;margin-bottom:8px;}
+.cod-success-box p{font-size:14px;color:#777;margin-bottom:20px;line-height:1.7;}
+.cod-wa-confirm{
+  width:100%;padding:15px;
+  background:linear-gradient(135deg,#25D366,#128C7E);
+  color:white;border:none;border-radius:16px;
+  font-size:15px;font-weight:700;cursor:pointer;
+  font-family:'Poppins',sans-serif;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+}
+.order-note{font-size:12px;color:#aaa;text-align:center;margin-top:12px;line-height:1.6;}
+
+/* ===================== REVIEWS ===================== */
+.reviews-section{padding:0 20px 40px;max-width:1200px;margin:auto;}
+.reviews-section h2{font-size:22px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+.reviews-section h2 i{color:#f5a623;}
+.review-form-box{background:white;border-radius:20px;padding:24px;box-shadow:0 5px 20px rgba(0,0,0,0.07);margin-bottom:24px;}
+.review-form-box h3{font-size:16px;margin-bottom:16px;color:#111;}
+.star-picker{display:flex;gap:8px;margin-bottom:16px;}
+.star-picker i{font-size:28px;color:#ddd;cursor:pointer;transition:0.2s;}
+.star-picker i.sel{color:#f5a623;}
+.review-input{width:100%;padding:13px 16px;border:2px solid #eee;border-radius:14px;font-family:'Poppins',sans-serif;font-size:14px;outline:none;resize:none;transition:0.3s;box-sizing:border-box;}
+.review-input:focus{border-color:#ff416c;}
+.review-name-input{width:100%;padding:12px 16px;border:2px solid #eee;border-radius:14px;font-family:'Poppins',sans-serif;font-size:14px;outline:none;transition:0.3s;margin-bottom:12px;box-sizing:border-box;}
+.review-name-input:focus{border-color:#ff416c;}
+/* Photo upload in review */
+.review-photo-upload{margin:12px 0;}
+.review-photo-label{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:2px dashed #ddd;border-radius:12px;cursor:pointer;font-size:13px;font-weight:600;color:#777;transition:0.2s;}
+.review-photo-label:hover{border-color:#ff416c;color:#ff416c;}
+.review-photo-label i{color:#ff416c;}
+.review-photo-previews{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;}
+.rphoto-wrap{position:relative;width:72px;height:72px;border-radius:12px;overflow:hidden;}
+.rphoto-wrap img{width:100%;height:100%;object-fit:cover;}
+.rphoto-del{position:absolute;top:3px;right:3px;width:20px;height:20px;background:rgba(0,0,0,0.6);color:white;border:none;border-radius:50%;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.submit-review-btn{margin-top:12px;padding:13px 28px;background:linear-gradient(135deg,#ff416c,#ff4b2b);color:white;border:none;border-radius:14px;font-size:15px;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;transition:0.3s;display:inline-flex;align-items:center;gap:8px;}
+.submit-review-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(255,65,108,0.3);}
+.review-card{background:white;border-radius:18px;padding:20px;box-shadow:0 3px 15px rgba(0,0,0,0.06);margin-bottom:14px;animation:fadeInUp 0.4s ease;}
+.review-top{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.review-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#ff416c,#ff4b2b);color:white;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;flex-shrink:0;}
+.review-meta h4{font-size:15px;font-weight:700;}
+.review-meta .review-stars{color:#f5a623;font-size:14px;}
+.review-comment{font-size:14px;color:#555;line-height:1.7;}
+.review-date{font-size:12px;color:#aaa;margin-top:8px;}
+.no-reviews{text-align:center;padding:30px;color:#aaa;font-size:15px;}
+.avg-rating-box{display:flex;align-items:center;gap:16px;background:white;border-radius:18px;padding:20px 24px;box-shadow:0 5px 20px rgba(0,0,0,0.07);margin-bottom:20px;}
+.avg-big{font-size:52px;font-weight:800;color:#111;line-height:1;}
+.avg-stars{color:#f5a623;font-size:22px;}
+.avg-count{color:#888;font-size:14px;margin-top:4px;}
+.review-photos-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+.review-photos-row img{width:68px;height:68px;object-fit:cover;border-radius:10px;cursor:pointer;transition:0.2s;}
+.review-photos-row img:hover{transform:scale(1.05);}
+
+/* ===================== IMAGE ZOOM ===================== */
+.main-img-wrap{ position:relative; overflow:hidden; border-radius:20px; cursor:zoom-in; }
+.main-product-img{ transition:transform 0.4s ease; display:block; width:100%; }
+.main-img-wrap.zoomed .main-product-img{ transform:scale(2.2); cursor:zoom-out; }
+.zoom-hint{ position:absolute; bottom:10px; right:10px; background:rgba(0,0,0,0.45); color:white; font-size:11px; font-weight:600; padding:5px 10px; border-radius:20px; pointer-events:none; transition:0.3s; font-family:'Poppins',sans-serif; }
+.main-img-wrap.zoomed .zoom-hint{ opacity:0; }
+
+/* ===================== COUPON BOX ===================== */
+.coupon-row{ display:flex; gap:10px; margin:14px 0; }
+.coupon-input{ flex:1; padding:12px 16px; border:2px solid #eee; border-radius:14px; font-family:'Poppins',sans-serif; font-size:14px; outline:none; transition:0.3s; }
+.coupon-input:focus{ border-color:#ff416c; }
+.coupon-apply-btn{ padding:12px 20px; background:linear-gradient(135deg,#ff416c,#ff4b2b); color:white; border:none; border-radius:14px; font-size:14px; font-weight:700; cursor:pointer; font-family:'Poppins',sans-serif; white-space:nowrap; transition:0.3s; }
+.coupon-apply-btn:hover{ transform:translateY(-1px); }
+.coupon-msg{ font-size:13px; margin-top:6px; min-height:18px; }
+.coupon-msg.success{ color:#00a854; font-weight:600; }
+.coupon-msg.error  { color:#e00; }
+.coupon-applied-bar{ background:#e8fff2; border:1px solid #00a854; border-radius:14px; padding:10px 16px; display:flex; align-items:center; justify-content:space-between; font-size:13px; font-weight:600; color:#00a854; margin:10px 0; }
+.coupon-remove-btn{ background:none; border:none; color:#e00; cursor:pointer; font-size:13px; font-weight:700; font-family:'Poppins',sans-serif; }
+
+/* ===================== RECENTLY VIEWED ===================== */
+.rv-section{ padding:0 20px 40px; max-width:1200px; margin:auto; }
+.rv-section h2{ font-size:20px; font-weight:700; margin-bottom:18px; display:flex; align-items:center; gap:10px; }
+.rv-section h2 i{ color:#ff416c; }
+.rv-scroll{ display:flex; gap:16px; overflow-x:auto; padding-bottom:10px; scroll-snap-type:x mandatory; }
+.rv-scroll::-webkit-scrollbar{ height:4px; }
+.rv-scroll::-webkit-scrollbar-track{ background:#f0f0f0; border-radius:2px; }
+.rv-scroll::-webkit-scrollbar-thumb{ background:#ff416c; border-radius:2px; }
+.rv-card{ min-width:160px; max-width:160px; background:white; border-radius:18px; overflow:hidden; box-shadow:0 3px 15px rgba(0,0,0,0.08); cursor:pointer; transition:0.25s; scroll-snap-align:start; flex-shrink:0; }
+.rv-card:hover{ transform:translateY(-4px); box-shadow:0 8px 25px rgba(0,0,0,0.12); }
+.rv-card img{ width:100%; height:160px; object-fit:cover; display:block; }
+.rv-card-info{ padding:10px 12px; }
+.rv-card-info h4{ font-size:13px; font-weight:700; margin-bottom:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.rv-card-info p{ font-size:13px; color:#ff416c; font-weight:700; }
+
+/* ===================== RELATED PRODUCTS ===================== */
+.related-section{ padding:0 20px 40px; max-width:1200px; margin:auto; }
+.related-section h2{ font-size:20px; font-weight:700; margin-bottom:18px; display:flex; align-items:center; gap:10px; }
+.related-section h2 i{ color:#ff416c; }
+.related-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:16px; }
+.related-card{ background:white; border-radius:18px; overflow:hidden; box-shadow:0 3px 15px rgba(0,0,0,0.08); cursor:pointer; transition:0.25s; }
+.related-card:hover{ transform:translateY(-4px); box-shadow:0 8px 25px rgba(0,0,0,0.12); }
+.related-card img{ width:100%; height:170px; object-fit:cover; display:block; }
+.related-card-info{ padding:12px; }
+.related-card-info h4{ font-size:13px; font-weight:700; margin-bottom:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.related-card-info .rel-price{ font-size:14px; color:#ff416c; font-weight:700; }
+.related-card-info .rel-old{ font-size:12px; color:#aaa; text-decoration:line-through; margin-left:5px; }
+.related-card-info .rel-disc{ font-size:11px; background:#fff0f3; color:#ff416c; padding:2px 7px; border-radius:10px; font-weight:700; }
+
+/* Lightbox */
+.rv-lightbox{position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:99999;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.rv-lightbox img{max-width:90vw;max-height:90vh;border-radius:16px;object-fit:contain;}
+</style>
+</head>
+<body class="product-page">
+
+<div id="toast" class="toast"></div>
+
+<!-- SHARE PANEL -->
+<div class="share-panel-overlay" id="shareOverlay" onclick="closeSharePanel()"></div>
+<div class="share-panel" id="sharePanel">
+  <h3><i class="fa-solid fa-share-nodes"></i> Share Karo</h3>
+  <div class="share-product-preview" id="shareProductPreview">
+    <img id="sharePreviewImg" src="" alt="product">
+    <div><h4 id="sharePreviewTitle">Loading...</h4><p id="sharePreviewPrice">₹0</p></div>
+  </div>
+  <div class="share-options">
+    <div class="share-opt share-wa"   onclick="shareWhatsApp()"><div class="share-icon"><i class="fa-brands fa-whatsapp"></i></div><p>WhatsApp</p></div>
+    <div class="share-opt share-tele" onclick="shareTelegram()"><div class="share-icon"><i class="fa-brands fa-telegram"></i></div><p>Telegram</p></div>
+    <div class="share-opt share-copy" onclick="copyLink()">     <div class="share-icon"><i class="fa-solid fa-link"></i></div><p>Copy Link</p></div>
+    <div class="share-opt share-more" onclick="shareNative()">  <div class="share-icon"><i class="fa-solid fa-ellipsis"></i></div><p>More</p></div>
+  </div>
+  <div class="share-link-box">
+    <i class="fa-solid fa-link" style="color:#aaa;flex-shrink:0;"></i>
+    <span id="shareLinkText">Loading...</span>
+    <button class="copy-link-btn" onclick="copyLink()">Copy</button>
+  </div>
+  <button class="share-close-btn" onclick="closeSharePanel()">Close</button>
+</div>
+
+<!-- SIZE CHART MODAL -->
+<div class="size-chart-overlay" id="sizeChartOverlay" onclick="closeSizeChart(event)">
+  <div class="size-chart-box" id="sizeChartBox">
+    <h3><i class="fa-solid fa-ruler"></i> Size Chart</h3>
+    <div id="sizeChartContent"><!-- JS se fill hoga --></div>
+    <button class="size-chart-close" onclick="closeSizeChartDirect()">✕ Close</button>
+  </div>
+</div>
+
+<!-- COD ORDER MODAL -->
+<div class="cod-overlay" id="codOverlay" onclick="closeCodModal(event)">
+  <div class="cod-box" id="codBox">
+    <div id="codFormArea"><!-- JS se fill hoga --></div>
+  </div>
+</div>
+
+<!-- PROMO BANNER -->
+<div class="promo-bar">
+  <div class="promo-track">
+    🔥 FREE DELIVERY on orders above ₹999 &nbsp;|&nbsp; ✨ New Arrivals Every Week &nbsp;|&nbsp; 💬 WhatsApp par order karo &nbsp;|&nbsp; 🎁 Special discounts &nbsp;|&nbsp; 👑 Premium Quality &nbsp;|&nbsp;
+    🔥 FREE DELIVERY on orders above ₹999 &nbsp;|&nbsp; ✨ New Arrivals Every Week &nbsp;|&nbsp; 💬 WhatsApp par order karo &nbsp;|&nbsp; 🎁 Special discounts &nbsp;|&nbsp; 👑 Premium Quality &nbsp;|&nbsp;
+  </div>
+</div>
+
+<header>
+  <div class="navbar">
+    <div class="logo" onclick="window.location.href='index.html'" style="cursor:pointer;">
+      <i class="fa-solid fa-crown"></i> FASHION EMPIRE
+    </div>
+    <div class="search-box">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" placeholder="Search..." onclick="window.location.href='index.html'" readonly>
+    </div>
+    <div class="desktop-user">
+      <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Back to Store</a>
+    </div>
+  </div>
+</header>
+
+<div class="breadcrumb">
+  <a href="index.html">Home</a>
+  <i class="fa-solid fa-chevron-right"></i>
+  <span id="breadcrumbTitle">Product</span>
+</div>
+
+<section class="product-detail-section">
+  <div class="product-detail-container" id="productDetailContainer">
+    <div class="pd-left"><div class="skeleton-img" style="height:400px;border-radius:20px;"></div></div>
+    <div class="pd-right">
+      <div class="skeleton-line" style="height:30px;margin-bottom:15px;"></div>
+      <div class="skeleton-line short"></div><div class="skeleton-line short"></div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<div class="reviews-section" id="reviewsSection" style="display:none;">
+  <h2><i class="fa-solid fa-star"></i> Customer Reviews</h2>
+  <div class="avg-rating-box" id="avgRatingBox" style="display:none;">
+    <div class="avg-big" id="avgScore">—</div>
+    <div>
+      <div class="avg-stars" id="avgStarsEl">★★★★★</div>
+      <div class="avg-count" id="avgCount">0 reviews</div>
+    </div>
+  </div>
+  <div class="review-form-box">
+    <h3>✍️ Apna Review Likho</h3>
+    <div class="star-picker" id="starPicker">
+      <i class="fa-solid fa-star" onclick="selectStar(1)"></i>
+      <i class="fa-solid fa-star" onclick="selectStar(2)"></i>
+      <i class="fa-solid fa-star" onclick="selectStar(3)"></i>
+      <i class="fa-solid fa-star" onclick="selectStar(4)"></i>
+      <i class="fa-solid fa-star" onclick="selectStar(5)"></i>
+    </div>
+    <input class="review-name-input" id="reviewName" placeholder="Aapka naam (optional)">
+    <textarea class="review-input" id="reviewText" rows="3" placeholder="Product ke baare mein batao..."></textarea>
+
+    <!-- Photo Upload (max 3) -->
+    <div class="review-photo-upload">
+      <label class="review-photo-label" for="reviewPhotoInput">
+        <i class="fa-solid fa-camera"></i> Photo Add Karo (max 3)
+      </label>
+      <input type="file" id="reviewPhotoInput" accept="image/*" multiple style="display:none" onchange="handleReviewPhotos(this)">
+      <div class="review-photo-previews" id="reviewPhotoPreviews"></div>
+    </div>
+
+    <button class="submit-review-btn" id="submitReviewBtn" onclick="submitReview()">
+      <i class="fa-solid fa-paper-plane"></i> Submit Review
+    </button>
+  </div>
+  <div id="reviewsList"></div>
+</div>
+
+
+<!-- RECENTLY VIEWED -->
+<div class="rv-section" id="recentlyViewedSection" style="display:none;">
+  <h2><i class="fa-solid fa-clock-rotate-left"></i> Aapne Recently Dekha</h2>
+  <div class="rv-scroll" id="recentlyViewedGrid"></div>
+</div>
+
+<!-- RELATED PRODUCTS -->
+<div class="related-section" id="relatedSection" style="display:none;">
+  <h2><i class="fa-solid fa-fire"></i> Isi Category Ke Products</h2>
+  <div class="related-grid" id="relatedGrid"></div>
+</div>
+
+<a href="https://wa.me/919174709695" target="_blank" class="floating-whatsapp">
+  <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<footer>
+  <div class="footer-content">
+    <h2>FASHION EMPIRE</h2>
+    <p>Premium reseller fashion store.</p>
+    <div class="footer-socials">
+      <a href="https://instagram.com/_fashion_empire_online_" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+      <a href="https://wa.me/919174709695" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+    </div>
+    <p class="copyright">© 2026 Fashion Empire. All Rights Reserved.</p>
+  </div>
+</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import { getFirestore, doc, getDoc, collection, addDoc, query, where, getDocs, serverTimestamp }
+  from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+const app = initializeApp({
+  apiKey: "AIzaSyBw6dKBEDGfuh-he23WHJGG-L6mRDH_lFo",
+  authDomain: "fashion-empire-online.firebaseapp.com",
+  projectId: "fashion-empire-online",
+  storageBucket: "fashion-empire-online.firebasestorage.app",
+  messagingSenderId: "270445447440",
+  appId: "1:270445447440:web:17b31b34a0bbecbe87bd95"
+});
+const db = getFirestore(app);
+
+const CLOUD_NAME    = "dnga18lnc";
+const UPLOAD_PRESET = "fashion empire";
+
+const params    = new URLSearchParams(window.location.search);
+const productId = params.get("id");
+if(!productId) window.location.href = "index.html";
+
+const BASE_URL   = window.location.origin;
+const productUrl = `${BASE_URL}/product.html?id=${productId}`;
+
+let productTitle = "", productPrice = 0, productImg = "", productCategory = "";
+let productLoaded = false;
+let selectedSize  = "";
+
+/* =====================
+   TOAST
+===================== */
+function showToast(msg){
+  let t = document.getElementById("toast");
+  if(!t) return;
+  t.innerText = msg;
+  t.classList.add("show");
+  setTimeout(()=> t.classList.remove("show"), 2500);
+}
+
+function calcDiscount(o,p){ if(!o||!p) return ""; return Math.round(((o-p)/o)*100)+"% OFF"; }
+
+/* =====================
+   SHARE FUNCTIONS
+===================== */
+window.openSharePanel = function(){
+  if(!productLoaded){ showToast("⏳ Product load ho raha hai..."); return; }
+  document.getElementById("shareLinkText").textContent     = productUrl;
+  document.getElementById("sharePreviewTitle").textContent = productTitle;
+  document.getElementById("sharePreviewPrice").textContent = `₹${productPrice}`;
+  document.getElementById("sharePreviewImg").src           = productImg;
+  document.getElementById("sharePanel").classList.add("open");
+  document.getElementById("shareOverlay").classList.add("open");
+};
+window.closeSharePanel = function(){
+  document.getElementById("sharePanel").classList.remove("open");
+  document.getElementById("shareOverlay").classList.remove("open");
+};
+window.shareWhatsApp = function(){
+  let msg = `👗 *Fashion Empire* pe ye product dekho!\n\n🏷️ *${productTitle}*\n💰 Price: *₹${productPrice}*\n\n👇 Link:\n${productUrl}\n\n✨ Premium quality guaranteed!`;
+  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, "_blank");
+};
+window.shareTelegram = function(){
+  let msg = `👗 Fashion Empire\n\n${productTitle}\n💰 ₹${productPrice}\n\nPremium quality! Order karo WhatsApp pe.`;
+  window.open(`https://t.me/share/url?url=${encodeURIComponent(productUrl)}&text=${encodeURIComponent(msg)}`, "_blank");
+};
+window.copyLink = function(){
+  navigator.clipboard.writeText(productUrl)
+    .then(()=> showToast("✅ Link copy ho gaya!"))
+    .catch(()=>{
+      let el = document.createElement("textarea");
+      el.value = productUrl;
+      document.body.appendChild(el); el.select();
+      document.execCommand("copy"); document.body.removeChild(el);
+      showToast("✅ Link copy ho gaya!");
+    });
+};
+window.shareNative = function(){
+  if(navigator.share){
+    navigator.share({ title:`${productTitle} | Fashion Empire`, text:`Ye product dekho! ${productTitle} sirf ₹${productPrice} mein.`, url:productUrl }).catch(()=>{});
+  } else { copyLink(); }
+};
+
+/* =====================
+   SIZE CHART CONTENT — category wise
+===================== */
+const SIZE_CHARTS = {
+  menswear: {
+    type: "clothing",
+    sizes: ["XS","S","M","L","XL","XXL"],
+    columns: ["Size","Chest (in)","Waist (in)","Hip (in)"],
+    rows: [
+      ["XS","34-35","28-29","35-36"],
+      ["S", "36-37","30-31","37-38"],
+      ["M", "38-40","32-33","39-40"],
+      ["L", "41-43","34-36","41-43"],
+      ["XL","44-46","37-39","44-46"],
+      ["XXL","47-50","40-42","47-50"]
+    ],
+    tip: "Tip: Apni chest maap lo — fitting kapde ke liye. Loose fit chahiye toh ek size upar lo."
+  },
+  womenwear: {
+    type: "clothing",
+    sizes: ["XS","S","M","L","XL","XXL"],
+    columns: ["Size","Bust (in)","Waist (in)","Hip (in)"],
+    rows: [
+      ["XS","30-31","24-25","33-34"],
+      ["S", "32-33","26-27","35-36"],
+      ["M", "34-35","28-29","37-38"],
+      ["L", "36-38","30-32","39-41"],
+      ["XL","39-41","33-35","42-44"],
+      ["XXL","42-44","36-38","45-47"]
+    ],
+    tip: "Tip: Bust aur hip dono maap kar ke badi size lo — fitting dress ke liye waist sahi honi chahiye."
+  },
+  shoes: {
+    type: "shoes",
+    sizes: ["6","7","8","9","10","11"],
+    columns: ["UK Size","EU Size","Foot Length (cm)"],
+    rows: [
+      ["6","39","24.5"],
+      ["7","40","25.5"],
+      ["8","41","26.0"],
+      ["9","42","26.5"],
+      ["10","43","27.5"],
+      ["11","44","28.0"]
+    ],
+    tip: "Tip: Paon ka size shaam ko maap lo jab wo thoda bada hota hai. Half size mein ho toh badi size lo."
+  },
+  default: {
+    type: "clothing",
+    sizes: ["S","M","L","XL","XXL"],
+    columns: ["Size","Chest (in)","Waist (in)"],
+    rows: [
+      ["S", "36-37","30-31"],
+      ["M", "38-40","32-33"],
+      ["L", "41-43","34-36"],
+      ["XL","44-46","37-39"],
+      ["XXL","47-50","40-42"]
+    ],
+    tip: "Tip: Best fit ke liye apni exact measurements lo."
+  }
+};
+
+function getSizeChart(category){
+  let cat = (category||"").toLowerCase();
+  if(SIZE_CHARTS[cat]) return SIZE_CHARTS[cat];
+  if(cat.includes("shoe") || cat.includes("footwear")) return SIZE_CHARTS.shoes;
+  if(cat.includes("women") || cat.includes("girl"))    return SIZE_CHARTS.womenwear;
+  if(cat.includes("men")  || cat.includes("boy"))      return SIZE_CHARTS.menswear;
+  return SIZE_CHARTS.default;
+}
+
+window.openSizeChart = function(){
+  let chart = getSizeChart(productCategory);
+  let cols  = chart.columns.map(c=>`<th>${c}</th>`).join("");
+  let rows  = chart.rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("");
+  document.getElementById("sizeChartContent").innerHTML = `
+    <table class="size-table">
+      <thead><tr>${cols}</tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div class="size-tip">📏 <strong>Kaise maap karein?</strong><br>${chart.tip}</div>
+  `;
+  document.getElementById("sizeChartOverlay").classList.add("open");
+};
+window.closeSizeChart = function(e){
+  if(e.target === document.getElementById("sizeChartOverlay"))
+    document.getElementById("sizeChartOverlay").classList.remove("open");
+};
+window.closeSizeChartDirect = function(){
+  document.getElementById("sizeChartOverlay").classList.remove("open");
+};
+
+/* =====================
+   SIZE BUTTONS — render
+===================== */
+function renderSizeSelector(category){
+  let chart = getSizeChart(category);
+  let container = document.getElementById("sizeSelectorWrap");
+  if(!container) return;
+
+  let btns = chart.sizes.map(s=>`
+    <button class="size-btn" data-size="${s}" onclick="selectSize('${s}',this)">
+      ${s}
+    </button>`).join("");
+
+  container.innerHTML = `
+    <div class="size-section">
+      <div class="size-label">
+        <span>Size Chuniye <span id="selectedSizeText" style="color:#ff416c;"></span></span>
+        <a onclick="openSizeChart()"><i class="fa-solid fa-ruler"></i> Size Chart</a>
+      </div>
+      <div class="size-buttons">${btns}</div>
+    </div>`;
+}
+
+window.selectSize = function(size, el){
+  selectedSize = size;
+  document.querySelectorAll(".size-btn").forEach(b => b.classList.remove("selected"));
+  el.classList.add("selected");
+  document.getElementById("selectedSizeText").textContent = `— ${size} selected`;
+  showToast(`📐 Size ${size} select hua!`);
+};
+
+/* =====================
+   COD ORDER MODAL
+===================== */
+window.openCodModal = function(){
+  if(!productLoaded){ showToast("⏳ Product load ho raha hai..."); return; }
+
+  let needsSize = !["bags","watches","sunglasses","accessories"].includes(productCategory.toLowerCase());
+  if(needsSize && !selectedSize){
+    showToast("❗ Pehle apna size chuniye!");
+    document.querySelector(".size-buttons")?.scrollIntoView({ behavior:"smooth", block:"center" });
+    return;
+  }
+
+  let sizeText = selectedSize ? `<span class="cod-size-badge">Size: ${selectedSize}</span>` : "";
+  document.getElementById("codFormArea").innerHTML = `
+    <h3><i class="fa-solid fa-truck-fast"></i> COD Order Details</h3>
+    <p style="color:#888;font-size:13px;margin-bottom:16px;">Delivery ke liye details bharo — hum confirm karenge</p>
+    <div class="cod-product-bar">
+      <img src="${productImg}" alt="${productTitle}">
+      <div>
+        <h4>${productTitle}</h4>
+        <p id="codFinalPrice">₹${productPrice}</p>
+        ${sizeText}
+      </div>
+    </div>
+    <div class="cod-form-grid">
+      <div class="cod-fg">
+        <label><i class="fa-solid fa-user"></i> Poora Naam *</label>
+        <input type="text" id="codNaam" placeholder="Aapka naam">
+      </div>
+      <div class="cod-fg">
+        <label><i class="fa-solid fa-phone"></i> Phone Number *</label>
+        <input type="tel" id="codPhone" placeholder="10 digit number" maxlength="10">
+      </div>
+      <div class="cod-fg">
+        <label><i class="fa-solid fa-phone-volume"></i> Alt. Phone (optional)</label>
+        <input type="tel" id="codAltPhone" placeholder="Backup number" maxlength="10">
+      </div>
+      <div class="cod-fg">
+        <label><i class="fa-solid fa-location-pin"></i> Pincode *</label>
+        <input type="text" id="codPincode" placeholder="6 digit pincode" maxlength="6">
+      </div>
+      <div class="cod-fg cod-full">
+        <label><i class="fa-solid fa-house"></i> Ghar ka Address *</label>
+        <input type="text" id="codAddress" placeholder="Gali, mohalla, building no...">
+      </div>
+      <div class="cod-fg">
+        <label><i class="fa-solid fa-city"></i> Sheher (City) *</label>
+        <input type="text" id="codCity" placeholder="City naam">
+      </div>
+      <div class="cod-fg">
+        <label><i class="fa-solid fa-map"></i> State *</label>
+        <input type="text" id="codState" placeholder="State naam">
+      </div>
+      <div class="cod-fg cod-full">
+        <label><i class="fa-solid fa-note-sticky"></i> Kuch Special Notes (optional)</label>
+        <textarea id="codNotes" rows="2" placeholder="e.g. delivery time, color preference..."></textarea>
+      </div>
+    </div>
+    <button class="cod-submit-btn" id="codSubmitBtn" onclick="submitCodOrder()">
+      <i class="fa-solid fa-bag-shopping"></i>
+      <span id="codSubmitTxt">Order Place Karo</span>
+    </button>
+    <button class="cod-cancel-btn" onclick="closeCodModal()">Cancel</button>
+    <div style="margin-bottom:10px;">
+      <p style="font-size:13px;font-weight:700;color:#555;margin-bottom:8px;"><i class="fa-solid fa-tag" style="color:#ff416c;"></i> Coupon Code (optional)</p>
+      <div class="coupon-row">
+        <input class="coupon-input" id="couponInput" placeholder="e.g. FLAT50, SAVE10" style="font-size:13px;">
+        <button class="coupon-apply-btn" onclick="applyCoupon()">Apply</button>
+      </div>
+      <p class="coupon-msg" id="couponMsg"></p>
+    </div>
+    <p class="order-note">🔒 Aapka data safe hai. Cash on Delivery — delivery pe payment karo.</p>
+  `;
+  document.getElementById("codOverlay").classList.add("open");
+};
+
+window.closeCodModal = function(e){
+  if(!e || e.target === document.getElementById("codOverlay"))
+    document.getElementById("codOverlay").classList.remove("open");
+};
+
+window.submitCodOrder = async function(){
+  let naam     = document.getElementById("codNaam")?.value.trim();
+  let phone    = document.getElementById("codPhone")?.value.trim();
+  let altPhone = document.getElementById("codAltPhone")?.value.trim();
+  let address  = document.getElementById("codAddress")?.value.trim();
+  let city     = document.getElementById("codCity")?.value.trim();
+  let state    = document.getElementById("codState")?.value.trim();
+  let pincode  = document.getElementById("codPincode")?.value.trim();
+  let notes    = document.getElementById("codNotes")?.value.trim();
+
+  if(!naam || !phone || !address || !city || !state || !pincode){
+    showToast("❗ Starred fields zaroori hain!"); return;
+  }
+  if(!/^\d{10}$/.test(phone)){ showToast("❗ Phone number 10 digit hona chahiye!"); return; }
+  if(!/^\d{6}$/.test(pincode)){ showToast("❗ Pincode 6 digit hona chahiye!"); return; }
+
+  let btn = document.getElementById("codSubmitBtn");
+  let txt = document.getElementById("codSubmitTxt");
+  txt.textContent = "Placing Order...";
+  btn.disabled = true;
+
+  try {
+    let orderData = {
+      productId, productTitle, productPrice,
+      finalOrderPrice: finalPrice || productPrice,
+      couponCode: appliedCoupon?.code || null,
+      selectedSize: selectedSize || "N/A",
+      productImage: productImg,
+      naam, phone, altPhone: altPhone||"",
+      address, city, state, pincode,
+      notes: notes||"",
+      status: "pending",
+      orderTime: serverTimestamp()
+    };
+
+    let docRef = await addDoc(collection(db, "orders"), orderData);
+
+    // WhatsApp message bhi bhejo
+    let waMsg =
+      `🛍️ *New COD Order — Fashion Empire*\n\n` +
+      `📦 *Product:* ${productTitle}\n` +
+      `💰 *Price:* ₹${productPrice}\n` +
+      (selectedSize ? `📐 *Size:* ${selectedSize}\n` : "") +
+      `\n👤 *Customer Details:*\n` +
+      `Naam: ${naam}\n` +
+      `Phone: ${phone}\n` +
+      (altPhone ? `Alt Phone: ${altPhone}\n` : "") +
+      `Address: ${address}\n` +
+      `City: ${city}, ${state} — ${pincode}\n` +
+      (notes ? `Notes: ${notes}\n` : "") +
+      `\n🆔 Order ID: ${docRef.id}\n` +
+      `\n✅ Please confirm this order!`;
+
+    // Show success screen
+    document.getElementById("codFormArea").innerHTML = `
+      <div class="cod-success-box">
+        <i class="fa-solid fa-circle-check"></i>
+        <h3>Order Place Ho Gaya! 🎉</h3>
+        <p>Aapka order receive ho gaya hai.<br>Hum jald hi <strong>${phone}</strong> pe confirm karenge.<br><br>Order ID: <strong style="color:#ff416c;">${docRef.id.slice(0,8).toUpperCase()}</strong></p>
+        <button class="cod-wa-confirm" onclick="window.open('https://wa.me/919174709695?text=${encodeURIComponent(waMsg)}','_blank')">
+          <i class="fa-brands fa-whatsapp"></i> WhatsApp pe Confirm Karo
+        </button>
+        <button class="cod-cancel-btn" onclick="closeCodModal()" style="margin-top:10px;">Close</button>
+      </div>`;
+
+  } catch(err){
+    console.error(err);
+    showToast("❌ Order failed. Try again.");
+    txt.textContent = "Order Place Karo";
+    btn.disabled = false;
+  }
+};
+
+/* =====================
+   LOAD PRODUCT
+===================== */
+(async()=>{
+  try {
+    let snap = await getDoc(doc(db, "products", productId));
+    if(!snap.exists()){
+      document.getElementById("productDetailContainer").innerHTML =
+        `<p style="color:#e00;padding:30px;grid-column:1/-1;">Product nahi mila.</p>`;
+      return;
+    }
+    let p = snap.data();
+    productTitle    = p.title     || "Product";
+    productPrice    = p.price     || 0;
+    productImg      = p.image1    || "";
+    productCategory = p.category  || "";
+    productLoaded   = true;
+
+    document.title = `${productTitle} | Fashion Empire`;
+    document.getElementById("breadcrumbTitle").textContent = productTitle;
+
+    // OG meta dynamic update
+    const setMeta = (id, val) => { let el=document.getElementById(id); if(el) el.setAttribute("content", val); };
+    setMeta("ogTitle", `${productTitle} | Fashion Empire`);
+    setMeta("ogDesc",  `${productTitle} — sirf ₹${productPrice} mein. Premium quality!`);
+    setMeta("ogImage", productImg);
+
+    let images   = [p.image1,p.image2,p.image3,p.image4,p.image5].filter(Boolean);
+    let discount = calcDiscount(p.oldprice, p.price);
+    let thumbs   = images.map((img,i)=>{
+      let el = document.createElement("img");
+      el.src       = img; el.alt = `img ${i+1}`;
+      el.className = `thumb${i===0?" active-thumb":""}`;
+      el.addEventListener("click", ()=>{
+        document.getElementById("mainProductImage").src = img;
+        document.querySelectorAll(".thumb").forEach(t=>t.classList.remove("active-thumb"));
+        el.classList.add("active-thumb");
+      });
+      return el.outerHTML;
+    }).join("");
+
+    // Need size selector?
+    let noSizeCats = ["bags","watches","sunglasses","accessories"];
+    let needsSize  = !noSizeCats.includes(productCategory.toLowerCase());
+    let sizeBlock  = needsSize ? `<div id="sizeSelectorWrap"></div>` : "";
+
+    document.getElementById("productDetailContainer").innerHTML = `
+      <div class="pd-left" style="animation:fadeInUp 0.5s ease both;">
+        <div class="main-img-wrap">
+          <img src="${images[0]||''}" id="mainProductImage" class="main-product-img" alt="${productTitle}">
+          ${discount?`<span class="badge-discount big-badge">${discount}</span>`:""}
+        </div>
+        <div class="thumb-row">${thumbs}</div>
+      </div>
+      <div class="pd-right" style="animation:fadeInUp 0.5s ease 0.1s both;">
+        <div class="pd-category">${p.category||'Fashion'}</div>
+        <h1 class="pd-title">${productTitle}</h1>
+        <div id="pdRatingRow" style="display:flex;align-items:center;gap:8px;margin-bottom:14px;font-size:14px;color:#aaa;">
+          <span style="color:#ddd;">★★★★★</span> <span>Loading reviews...</span>
+        </div>
+        <div class="pd-price-row">
+          <span class="pd-price">₹${productPrice}</span>
+          ${p.oldprice?`<span class="pd-old-price">₹${p.oldprice}</span>`:""}
+          ${discount?`<span class="pd-discount">${discount}</span>`:""}
+        </div>
+        <div class="pd-divider"></div>
+        <p class="pd-description">${p.description||'Premium quality product from Fashion Empire.'}</p>
+        <div class="pd-divider"></div>
+        ${sizeBlock}
+        <div class="pd-info-row">
+          <div class="pd-info-item"><i class="fa-solid fa-truck-fast"></i><span>Fast Delivery</span></div>
+          <div class="pd-info-item"><i class="fa-solid fa-shield-heart"></i><span>Trusted Quality</span></div>
+          <div class="pd-info-item"><i class="fa-solid fa-rotate-left"></i><span>Easy Returns</span></div>
+          <div class="pd-info-item"><i class="fa-solid fa-money-bill-wave"></i><span>Cash on Delivery</span></div>
+        </div>
+        <div class="pd-action-btns">
+          <button class="pd-cart-btn" onclick="openCodModal()" style="background:linear-gradient(135deg,#ff416c,#ff4b2b);">
+            <i class="fa-solid fa-truck-fast"></i> Order COD
+          </button>
+          <button class="pd-cart-btn" onclick="orderOnWhatsApp()" style="background:linear-gradient(135deg,#25D366,#128C7E);">
+            <i class="fa-brands fa-whatsapp"></i> WhatsApp
+          </button>
+          <button class="pd-wa-btn" onclick="openSharePanel()" style="background:linear-gradient(135deg,#667eea,#764ba2);">
+            <i class="fa-solid fa-share-nodes"></i> Share
+          </button>
+        </div>
+        <a href="index.html" class="pd-back-link"><i class="fa-solid fa-arrow-left"></i> Back to Store</a>
+      </div>`;
+
+    // Render size selector after DOM ready
+    if(needsSize) renderSizeSelector(productCategory);
+
+    window.orderOnWhatsApp = function(){
+      let sizeText = selectedSize ? `\n📐 Size: ${selectedSize}` : "";
+      let msg =
+        `Hello! Mujhe ye product order karna hai:\n\n` +
+        `🏷️ *${productTitle}*${sizeText}\n` +
+        `💰 Price: ₹${productPrice}\n\n` +
+        `👇 Product link:\n${productUrl}\n\n` +
+        `Kripya stock aur delivery confirm karein.`;
+      window.open(`https://wa.me/919174709695?text=${encodeURIComponent(msg)}`, "_blank");
+    };
+
+    document.getElementById("reviewsSection").style.display = "block";
+    loadReviews();
+
+    // Save to recently viewed
+    saveToRecentlyViewed(productId, productTitle, productPrice, productImg);
+    renderRecentlyViewed();
+
+    // Load related products
+    if(productCategory) loadRelatedProducts(productCategory, productId);
+
+    // Init zoom after DOM ready
+    setTimeout(initImageZoom, 100);
+
+    // Init coupon finalPrice
+    finalPrice = productPrice;
+
+  } catch(e){
+    console.error(e);
+    document.getElementById("productDetailContainer").innerHTML =
+      `<p style="color:#e00;padding:30px;">Error loading product. Refresh karein.</p>`;
+  }
+})();
+
+/* =====================
+   STAR PICKER
+===================== */
+let selectedRating = 0;
+window.selectStar = function(val){
+  selectedRating = val;
+  document.querySelectorAll("#starPicker i").forEach((s,i)=> s.classList.toggle("sel", i<val));
+};
+
+/* =====================
+   REVIEW PHOTO UPLOAD — Cloudinary
+===================== */
+let reviewPhotoFiles  = [];
+let reviewPhotoUrls   = [];
+
+window.handleReviewPhotos = function(input){
+  let files = Array.from(input.files).slice(0, 3 - reviewPhotoFiles.length);
+  if(reviewPhotoFiles.length >= 3){ showToast("❗ Max 3 photos allowed!"); return; }
+  files.forEach(file => {
+    if(reviewPhotoFiles.length >= 3) return;
+    reviewPhotoFiles.push(file);
+    let reader = new FileReader();
+    reader.onload = e => {
+      let wrap = document.createElement("div");
+      wrap.className = "rphoto-wrap";
+      let idx = reviewPhotoFiles.length - 1;
+      wrap.innerHTML = `
+        <img src="${e.target.result}" alt="preview">
+        <button class="rphoto-del" onclick="removeReviewPhoto(${idx})">✕</button>`;
+      document.getElementById("reviewPhotoPreviews").appendChild(wrap);
+    };
+    reader.readAsDataURL(file);
+  });
+  input.value = "";
+};
+
+window.removeReviewPhoto = function(idx){
+  reviewPhotoFiles.splice(idx,1);
+  reviewPhotoUrls.splice(idx,1);
+  let prevs = document.getElementById("reviewPhotoPreviews");
+  prevs.innerHTML = "";
+  let tempFiles = [...reviewPhotoFiles];
+  reviewPhotoFiles = [];
+  tempFiles.forEach(file => {
+    let reader = new FileReader();
+    reader.onload = e => {
+      let wrap = document.createElement("div");
+      wrap.className = "rphoto-wrap";
+      let idx2 = reviewPhotoFiles.length;
+      wrap.innerHTML = `<img src="${e.target.result}" alt="preview"><button class="rphoto-del" onclick="removeReviewPhoto(${idx2})">✕</button>`;
+      prevs.appendChild(wrap);
+    };
+    reader.readAsDataURL(file);
+    reviewPhotoFiles.push(file);
+  });
+};
+
+async function uploadReviewPhotos(){
+  let urls = [];
+  for(let file of reviewPhotoFiles){
+    try {
+      let fd = new FormData();
+      fd.append("file", file);
+      fd.append("upload_preset", UPLOAD_PRESET);
+      fd.append("folder", "fashion_empire_reviews");
+      let res  = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { method:"POST", body:fd });
+      let data = await res.json();
+      if(data.secure_url) urls.push(data.secure_url);
+    } catch(e){ console.error("Photo upload failed:", e); }
+  }
+  return urls;
+}
+
+/* =====================
+   SUBMIT REVIEW
+===================== */
+window.submitReview = async function(){
+  if(!selectedRating){ showToast("❌ Pehle stars select karo!"); return; }
+  let name    = document.getElementById("reviewName").value.trim() || "Anonymous";
+  let comment = document.getElementById("reviewText").value.trim();
+  if(!comment){ showToast("❌ Review likhna zaroori hai!"); return; }
+
+  let btn = document.getElementById("submitReviewBtn");
+  btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ${reviewPhotoFiles.length>0?"Photos upload ho rahi hain...":"Submitting..."}`;
+  btn.disabled  = true;
+
+  try {
+    let photoUrls = [];
+    if(reviewPhotoFiles.length > 0){
+      photoUrls = await uploadReviewPhotos();
+    }
+
+    await addDoc(collection(db,"reviews"),{
+      productId, productTitle,
+      userName:  name,
+      rating:    selectedRating,
+      comment,
+      photos:    photoUrls,
+      createdAt: serverTimestamp()
+    });
+
+    showToast("✅ Review submit ho gaya! Shukriya 🙏");
+    document.getElementById("reviewName").value = "";
+    document.getElementById("reviewText").value = "";
+    document.getElementById("reviewPhotoPreviews").innerHTML = "";
+    reviewPhotoFiles = []; reviewPhotoUrls = [];
+    selectedRating = 0;
+    document.querySelectorAll("#starPicker i").forEach(s=>s.classList.remove("sel"));
+    loadReviews();
+  } catch(e){
+    console.error(e);
+    showToast("❌ Review submit nahi hua. Try again.");
+  }
+  btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Submit Review`;
+  btn.disabled  = false;
+};
+
+/* =====================
+   LOAD REVIEWS
+===================== */
+async function loadReviews(){
+  try {
+    let snap = await getDocs(query(collection(db,"reviews"), where("productId","==",productId)));
+    let list     = document.getElementById("reviewsList");
+    let avgBox   = document.getElementById("avgRatingBox");
+    let pdRating = document.getElementById("pdRatingRow");
+
+    if(snap.empty){
+      list.innerHTML = `<p class="no-reviews">😊 Abhi koi review nahi hai. Pehle review likho!</p>`;
+      if(pdRating) pdRating.innerHTML = `<span style="color:#ddd;">★★★★★</span> <span>No reviews yet</span>`;
+      return;
+    }
+
+    let total=0, count=0;
+    let revArr = [];
+    snap.forEach(d=> revArr.push({...d.data(), id:d.id}));
+    revArr.sort((a,b)=> (b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+
+    list.innerHTML = "";
+    revArr.forEach(r=>{
+      total += r.rating; count++;
+      let stars    = "★".repeat(r.rating)+"☆".repeat(5-r.rating);
+      let initials = (r.userName||"A").charAt(0).toUpperCase();
+      let date     = r.createdAt
+        ? new Date(r.createdAt.seconds*1000).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"})
+        : "Recently";
+
+      // XSS safe
+      let card = document.createElement("div");
+      card.className = "review-card";
+
+      let photosHtml = "";
+      if(r.photos && r.photos.length > 0){
+        photosHtml = `<div class="review-photos-row">${
+          r.photos.map(url=>`<img src="${url}" alt="review photo" onclick="openLightbox('${url}')">`).join("")
+        }</div>`;
+      }
+
+      card.innerHTML = `
+        <div class="review-top">
+          <div class="review-avatar">${initials}</div>
+          <div class="review-meta">
+            <h4>${r.userName||"Anonymous"}</h4>
+            <div class="review-stars">${stars}</div>
+          </div>
+        </div>
+        <p class="review-comment">${r.comment}</p>
+        ${photosHtml}
+        <p class="review-date">${date}</p>`;
+      list.appendChild(card);
+    });
+
+    let avg      = (total/count).toFixed(1);
+    let filled   = Math.round(avg);
+    let avgStars = "★".repeat(filled)+"☆".repeat(5-filled);
+    document.getElementById("avgScore").textContent   = avg;
+    document.getElementById("avgStarsEl").textContent = avgStars;
+    document.getElementById("avgCount").textContent   = `${count} review${count>1?"s":""}`;
+    avgBox.style.display = "flex";
+
+    if(pdRating) pdRating.innerHTML =
+      `<span style="color:#f5a623;">${avgStars}</span>
+       <span style="color:#555;">${avg} (${count} reviews)</span>`;
+  } catch(e){ console.error(e); }
+}
+
+/* =====================
+   LIGHTBOX
+===================== */
+window.openLightbox = function(src){
+  let box = document.createElement("div");
+  box.className = "rv-lightbox";
+  box.innerHTML = `<img src="${src}" alt="review">`;
+  box.addEventListener("click", ()=> box.remove());
+  document.body.appendChild(box);
+};
+
+/* =====================
+   IMAGE ZOOM
+===================== */
+function initImageZoom(){
+  let wrap = document.querySelector(".main-img-wrap");
+  if(!wrap) return;
+  // Add zoom hint
+  let hint = document.createElement("div");
+  hint.className   = "zoom-hint";
+  hint.textContent = "🔍 Tap to zoom";
+  wrap.appendChild(hint);
+
+  wrap.addEventListener("click", function(e){
+    if(this.classList.contains("zoomed")){
+      this.classList.remove("zoomed");
+      hint.textContent = "🔍 Tap to zoom";
+    } else {
+      this.classList.add("zoomed");
+      hint.textContent = "✕ Tap to unzoom";
+      // Move transform origin to click position
+      let rect = this.getBoundingClientRect();
+      let x = ((e.clientX - rect.left) / rect.width  * 100).toFixed(1);
+      let y = ((e.clientY - rect.top)  / rect.height * 100).toFixed(1);
+      this.querySelector(".main-product-img").style.transformOrigin = `${x}% ${y}%`;
+    }
+  });
+}
+
+
+/* =====================
+   RECENTLY VIEWED
+===================== */
+const RV_KEY     = "fe_recentlyViewed";
+const RV_MAX     = 10;
+
+function saveToRecentlyViewed(id, title, price, image){
+  let rv = JSON.parse(localStorage.getItem(RV_KEY) || "[]");
+  rv = rv.filter(i => i.id !== id);        // remove duplicate
+  rv.unshift({ id, title, price, image }); // add to front
+  if(rv.length > RV_MAX) rv = rv.slice(0, RV_MAX);
+  localStorage.setItem(RV_KEY, JSON.stringify(rv));
+}
+
+function renderRecentlyViewed(){
+  let rv  = JSON.parse(localStorage.getItem(RV_KEY) || "[]");
+  let sec = document.getElementById("recentlyViewedSection");
+  let grid= document.getElementById("recentlyViewedGrid");
+  // Filter out current product
+  rv = rv.filter(i => i.id !== productId);
+  if(!rv.length || !sec || !grid){ if(sec) sec.style.display="none"; return; }
+  sec.style.display = "block";
+  grid.innerHTML = "";
+  rv.slice(0,8).forEach(item => {
+    let card = document.createElement("div");
+    card.className = "rv-card";
+    card.innerHTML = `
+      <img src="${item.image||''}" alt="${item.title||''}" loading="lazy">
+      <div class="rv-card-info">
+        <h4>${item.title||'Product'}</h4>
+        <p>₹${item.price||0}</p>
+      </div>`;
+    card.addEventListener("click", ()=>{ window.location.href = `product.html?id=${item.id}`; });
+    grid.appendChild(card);
+  });
+}
+
+
+/* =====================
+   RELATED PRODUCTS — Firebase se same category
+===================== */
+async function loadRelatedProducts(category, currentId){
+  try {
+    let { collection: col, getDocs: gd, query: q, where: w, limit: lim } =
+      await import("https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js");
+    // Reuse existing db
+    let snap = await gd(q(col(db, "products"), w("category","==",category), lim(8)));
+    let sec  = document.getElementById("relatedSection");
+    let grid = document.getElementById("relatedGrid");
+    if(!sec || !grid) return;
+
+    let items = [];
+    snap.forEach(d => { if(d.id !== currentId) items.push({ id:d.id, ...d.data() }); });
+
+    if(!items.length){ sec.style.display="none"; return; }
+    sec.style.display = "block";
+    grid.innerHTML    = "";
+
+    items.slice(0,6).forEach(p => {
+      let disc = p.oldprice && p.price ? Math.round(((p.oldprice-p.price)/p.oldprice)*100) : 0;
+      let card = document.createElement("div");
+      card.className = "related-card";
+      card.innerHTML = `
+        <img src="${p.image1||''}" alt="${p.title||''}" loading="lazy">
+        <div class="related-card-info">
+          <h4>${p.title||'Product'}</h4>
+          <div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px;margin-top:4px;">
+            <span class="rel-price">₹${p.price||0}</span>
+            ${p.oldprice ? `<span class="rel-old">₹${p.oldprice}</span>` : ""}
+            ${disc ? `<span class="rel-disc">${disc}% OFF</span>` : ""}
+          </div>
+        </div>`;
+      card.addEventListener("click", ()=>{ window.location.href = `product.html?id=${p.id}`; });
+      grid.appendChild(card);
+    });
+  } catch(e){ console.error("Related products error:", e); }
+}
+
+
+/* =====================
+   COUPON SYSTEM
+===================== */
+// Coupons — admin Firebase mein manage karega
+// Format: { code, type: 'percent'|'flat', value, minOrder, active }
+// Ab hardcoded sample — baad mein Firebase se load hoga
+let appliedCoupon    = null;
+let finalPrice       = 0;
+
+async function loadCoupons(){
+  try {
+    let { collection: col, getDocs: gd } =
+      await import("https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js");
+    let snap = await gd(col(db, "coupons"));
+    let coupons = {};
+    snap.forEach(d => { coupons[d.data().code?.toUpperCase()] = { id:d.id, ...d.data() }; });
+    return coupons;
+  } catch(e){ return {}; }
+}
+
+window.applyCoupon = async function(){
+  let code   = document.getElementById("couponInput")?.value.trim().toUpperCase();
+  let msgEl  = document.getElementById("couponMsg");
+  if(!code){ msgEl.textContent="❗ Code daalo pehle"; msgEl.className="coupon-msg error"; return; }
+
+  msgEl.textContent = "Checking..."; msgEl.className = "coupon-msg";
+  let coupons = await loadCoupons();
+  let coupon  = coupons[code];
+
+  if(!coupon || !coupon.active){
+    msgEl.textContent = "❌ Ye coupon valid nahi hai ya expire ho gaya.";
+    msgEl.className   = "coupon-msg error";
+    appliedCoupon = null; finalPrice = productPrice;
+    updateCodPrice(); return;
+  }
+
+  let minOrder = coupon.minOrder || 0;
+  if(productPrice < minOrder){
+    msgEl.textContent = `❌ Is coupon ke liye minimum order ₹${minOrder} chahiye.`;
+    msgEl.className   = "coupon-msg error";
+    appliedCoupon = null; finalPrice = productPrice;
+    updateCodPrice(); return;
+  }
+
+  appliedCoupon = coupon;
+  let disc = coupon.type === "percent"
+    ? Math.round(productPrice * coupon.value / 100)
+    : coupon.value;
+  finalPrice = Math.max(0, productPrice - disc);
+
+  msgEl.textContent = `✅ "${code}" apply hua! ₹${disc} off → Final: ₹${finalPrice}`;
+  msgEl.className   = "coupon-msg success";
+  updateCodPrice();
+};
+
+window.removeCoupon = function(){
+  appliedCoupon = null; finalPrice = productPrice;
+  let inp = document.getElementById("couponInput");
+  let msg = document.getElementById("couponMsg");
+  if(inp) inp.value = "";
+  if(msg){ msg.textContent=""; msg.className="coupon-msg"; }
+  updateCodPrice();
+};
+
+function updateCodPrice(){
+  let priceEl = document.getElementById("codFinalPrice");
+  if(priceEl) priceEl.textContent = `₹${finalPrice || productPrice}`;
+}
+
+
+</script>
+</body>
+</html>
