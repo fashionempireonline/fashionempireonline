@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel | Fashion Empire</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="admin_style.css">
+</head>
+<body>
+
+<div id="adminToast" class="admin-toast"></div>
+
+<!-- LOGIN GATE -->
+<div id="adminLoginGate" style="display:none; min-height:100vh; display:flex; align-items:center; justify-content:center;">
+  <div style="background:white;border-radius:24px;padding:36px;max-width:380px;width:100%;box-shadow:0 20px 50px rgba(0,0,0,0.15);">
+    <div style="font-size:22px;font-weight:700;color:#ff416c;margin-bottom:20px;display:flex;align-items:center;gap:10px;">
+      <i class="fa-solid fa-crown" style="color:#ffcc00;"></i> Admin Panel
+    </div>
+    <h2 style="margin-bottom:6px;">Admin Login</h2>
+    <p style="color:#888;font-size:14px;margin-bottom:22px;">Sirf authorized admins ke liye</p>
+    <div class="form-group" style="margin-bottom:14px;">
+      <label>Email</label>
+      <input type="email" id="adminEmail" placeholder="Admin email">
+    </div>
+    <div class="form-group" style="margin-bottom:18px;">
+      <label>Password</label>
+      <input type="password" id="adminPassword" placeholder="Password">
+    </div>
+    <p id="adminLoginErr" style="color:#e00;font-size:13px;margin-bottom:12px;display:none;"></p>
+    <button class="admin-btn" style="width:100%;justify-content:center;" onclick="adminLogin()">
+      <i class="fa-solid fa-right-to-bracket"></i> Login
+    </button>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="adminPanel" style="display:none;">
+<div class="admin-wrap">
+
+  <!-- HEADER -->
+  <div class="admin-header">
+    <div class="admin-logo"><i class="fa-solid fa-crown"></i> Fashion Empire — Admin</div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+      <a href="index.html" class="admin-btn secondary" style="text-decoration:none;">
+        <i class="fa-solid fa-store"></i> View Store
+      </a>
+      <button class="admin-btn danger" onclick="adminLogout()">
+        <i class="fa-solid fa-right-from-bracket"></i> Logout
+      </button>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-grid" id="statsGrid">
+    <div class="stat-box stat-red">
+      <div class="stat-icon"><i class="fa-solid fa-box"></i></div>
+      <h2 id="statProducts">—</h2><p>Total Products</p>
+    </div>
+    <div class="stat-box stat-blue">
+      <div class="stat-icon"><i class="fa-solid fa-layer-group"></i></div>
+      <h2 id="statCategories">—</h2><p>Categories</p>
+    </div>
+    <div class="stat-box stat-green">
+      <div class="stat-icon"><i class="fa-brands fa-whatsapp"></i></div>
+      <h2>WhatsApp</h2><p>Order Mode Active</p>
+    </div>
+    <div class="stat-box stat-yellow">
+      <div class="stat-icon"><i class="fa-solid fa-star"></i></div>
+      <h2 id="statReviews">—</h2><p>Total Reviews</p>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="admin-tabs">
+    <button class="admin-tab active" onclick="switchTab('products')"><i class="fa-solid fa-box"></i> Products</button>
+    <button class="admin-tab" onclick="switchTab('add')"><i class="fa-solid fa-plus"></i> Add Product</button>
+    <button class="admin-tab" onclick="switchTab('orders')"><i class="fa-solid fa-truck-fast"></i> Orders <span id="pendingBadge" style="display:none;background:#ff416c;color:white;font-size:11px;padding:2px 7px;border-radius:20px;margin-left:4px;"></span></button>
+    <button class="admin-tab" onclick="switchTab('analytics')"><i class="fa-solid fa-chart-line"></i> Analytics</button>
+    <button class="admin-tab" onclick="switchTab('coupons')"><i class="fa-solid fa-tag"></i> Coupons</button>
+    <button class="admin-tab" onclick="switchTab('reviews')"><i class="fa-solid fa-star"></i> Reviews</button>
+    <button class="admin-tab" onclick="switchTab('gallery')"><i class="fa-solid fa-images"></i> Gallery</button>
+  </div>
+
+  <!-- PRODUCTS LIST -->
+  <div id="tab-products" class="admin-section active">
+    <div class="admin-card">
+      <h3><i class="fa-solid fa-list"></i> All Products</h3>
+      <div id="productsTableWrap">
+        <div class="loading-state"><i class="fa-solid fa-spinner fa-spin"></i>Loading products...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ORDERS DASHBOARD -->
+  <div id="tab-orders" class="admin-section">
+    <div class="admin-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+        <h3 style="margin:0;"><i class="fa-solid fa-truck-fast"></i> COD Orders</h3>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+          <select id="orderStatusFilter" onchange="filterOrders()" style="padding:9px 14px;border:2px solid #eee;border-radius:12px;font-family:Poppins,sans-serif;font-size:13px;outline:none;cursor:pointer;">
+            <option value="all">Sab Orders</option>
+            <option value="pending">🟡 Pending</option>
+            <option value="confirmed">🟢 Confirmed</option>
+            <option value="shipped">🔵 Shipped</option>
+            <option value="delivered">✅ Delivered</option>
+            <option value="cancelled">❌ Cancelled</option>
+          </select>
+        </div>
+      </div>
+      <!-- Stats row -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:20px;" id="orderStatsRow"></div>
+      <!-- Orders list -->
+      <div id="ordersListWrap">
+        <div class="loading-state"><i class="fa-solid fa-spinner fa-spin"></i> Orders load ho rahi hain...</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ADD PRODUCT -->
+  <div id="tab-add" class="admin-section">
+    <div class="admin-card">
+      <h3><i class="fa-solid fa-plus-circle"></i> <span id="addFormTitle">Add New Product</span></h3>
+      <input type="hidden" id="editProductId">
+      <div class="form-grid">
+        <div class="form-group form-full">
+          <label>Product Title *</label>
+          <input type="text" id="pTitle" placeholder="e.g. Premium Denim Jacket">
+        </div>
+        <div class="form-group">
+          <label>Price (₹) *</label>
+          <input type="number" id="pPrice" placeholder="e.g. 1299">
+        </div>
+        <div class="form-group">
+          <label>Old Price (₹) — for discount</label>
+          <input type="number" id="pOldPrice" placeholder="e.g. 1999">
+        </div>
+        <div class="form-group">
+          <label>Category *</label>
+          <select id="pCategory">
+            <option value="menswear">Menswear</option>
+            <option value="womenwear">Womenwear</option>
+            <option value="shoes">Shoes</option>
+            <option value="bags">Bags</option>
+            <option value="watches">Watches</option>
+            <option value="sunglasses">Sunglasses</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Image 1 * (Main)</label>
+          <div class="img-upload-box" onclick="document.getElementById('file1').click()">
+            <img id="prev1" src="" style="display:none;width:100%;height:140px;object-fit:cover;border-radius:10px;">
+            <div id="placeholder1" class="upload-placeholder">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+              <p>📱 Phone se photo choose karo</p>
+            </div>
+            <div class="progress-wrap" id="prog1" style="display:none;">
+              <div class="progress-bar" id="progBar1"></div>
+              <span id="progTxt1">0%</span>
+            </div>
+          </div>
+          <input type="file" id="file1" accept="image/*" style="display:none" onchange="uploadImage(this,'pImg1','prev1','placeholder1','prog1','progBar1','progTxt1')">
+          <input type="url" id="pImg1" placeholder="Ya URL paste karo..." style="margin-top:8px;">
+        </div>
+        <div class="form-group">
+          <label>Image 2</label>
+          <div class="img-upload-box" onclick="document.getElementById('file2').click()">
+            <img id="prev2" src="" style="display:none;width:100%;height:100px;object-fit:cover;border-radius:10px;">
+            <div id="placeholder2" class="upload-placeholder small">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+              <p>Photo choose karo</p>
+            </div>
+            <div class="progress-wrap" id="prog2" style="display:none;">
+              <div class="progress-bar" id="progBar2"></div>
+              <span id="progTxt2">0%</span>
+            </div>
+          </div>
+          <input type="file" id="file2" accept="image/*" style="display:none" onchange="uploadImage(this,'pImg2','prev2','placeholder2','prog2','progBar2','progTxt2')">
+          <input type="url" id="pImg2" placeholder="Ya URL paste karo..." style="margin-top:8px;">
+        </div>
+        <div class="form-group">
+          <label>Image 3</label>
+          <div class="img-upload-box" onclick="document.getElementById('file3').click()">
+            <img id="prev3" src="" style="display:none;width:100%;height:100px;object-fit:cover;border-radius:10px;">
+            <div id="placeholder3" class="upload-placeholder small">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+              <p>Photo choose karo</p>
+            </div>
+            <div class="progress-wrap" id="prog3" style="display:none;">
+              <div class="progress-bar" id="progBar3"></div>
+              <span id="progTxt3">0%</span>
+            </div>
+          </div>
+          <input type="file" id="file3" accept="image/*" style="display:none" onchange="uploadImage(this,'pImg3','prev3','placeholder3','prog3','progBar3','progTxt3')">
+          <input type="url" id="pImg3" placeholder="Ya URL paste karo..." style="margin-top:8px;">
+        </div>
+        <div class="form-group">
+          <label>Image 4</label>
+          <div class="img-upload-box" onclick="document.getElementById('file4').click()">
+            <img id="prev4" src="" style="display:none;width:100%;height:100px;object-fit:cover;border-radius:10px;">
+            <div id="placeholder4" class="upload-placeholder small">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+              <p>Photo choose karo</p>
+            </div>
+            <div class="progress-wrap" id="prog4" style="display:none;">
+              <div class="progress-bar" id="progBar4"></div>
+              <span id="progTxt4">0%</span>
+            </div>
+          </div>
+          <input type="file" id="file4" accept="image/*" style="display:none" onchange="uploadImage(this,'pImg4','prev4','placeholder4','prog4','progBar4','progTxt4')">
+          <input type="url" id="pImg4" placeholder="Ya URL paste karo..." style="margin-top:8px;">
+        </div>
+        <div class="form-group form-full">
+          <label>Description</label>
+          <textarea id="pDesc" rows="3" placeholder="Product ke baare mein likho..."></textarea>
+        </div>
+      </div>
+      <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;">
+        <button class="admin-btn" onclick="saveProduct()">
+          <i class="fa-solid fa-save"></i> <span id="saveBtnText">Save Product</span>
+        </button>
+        <button class="admin-btn secondary" onclick="clearForm()">
+          <i class="fa-solid fa-xmark"></i> Clear Form
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ANALYTICS -->
+  <div id="tab-analytics" class="admin-section">
+    <div class="admin-card">
+      <h3><i class="fa-solid fa-chart-line"></i> Sales Analytics</h3>
+      <div id="analyticsWrap">
+        <div class="loading-state"><i class="fa-solid fa-spinner fa-spin"></i> Analytics load ho rahi hai...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COUPONS -->
+  <div id="tab-coupons" class="admin-section">
+    <div class="admin-card">
+      <h3><i class="fa-solid fa-tag"></i> Coupon Codes</h3>
+      <!-- Add Coupon Form -->
+      <div style="background:#f9f9f9;border-radius:16px;padding:20px;margin-bottom:20px;">
+        <h4 style="margin-bottom:14px;font-size:15px;">➕ Naya Coupon Banao</h4>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Coupon Code *</label>
+            <input type="text" id="cpCode" placeholder="e.g. FLAT50" style="text-transform:uppercase;">
+          </div>
+          <div class="form-group">
+            <label>Type *</label>
+            <select id="cpType">
+              <option value="flat">Flat Amount (₹)</option>
+              <option value="percent">Percentage (%)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Discount Value *</label>
+            <input type="number" id="cpValue" placeholder="e.g. 50 ya 10">
+          </div>
+          <div class="form-group">
+            <label>Minimum Order (₹)</label>
+            <input type="number" id="cpMinOrder" placeholder="e.g. 500 (optional)">
+          </div>
+        </div>
+        <button class="admin-btn" style="margin-top:14px;" onclick="saveCoupon()">
+          <i class="fa-solid fa-plus"></i> Coupon Banao
+        </button>
+      </div>
+      <!-- Coupons List -->
+      <div id="couponsListWrap">
+        <div class="loading-state"><i class="fa-solid fa-spinner fa-spin"></i> Coupons load ho rahe hain...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REVIEWS -->
+  <div id="tab-reviews" class="admin-section">
+    <div class="admin-card">
+      <h3><i class="fa-solid fa-star"></i> Customer Reviews</h3>
+      <div id="reviewsAdminWrap">
+        <div class="loading-state"><i class="fa-solid fa-spinner fa-spin"></i> Loading reviews...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GALLERY -->
+  <div id="tab-gallery" class="admin-section">
+    <div class="admin-card">
+      <h3><i class="fa-solid fa-images"></i> Photo Gallery &nbsp;<span id="galCount" style="font-size:14px;color:#666;font-weight:400;"></span></h3>
+
+      <!-- Upload Button — simple aur seedha -->
+      <label for="galFileInput" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:18px;background:linear-gradient(135deg,#1a1a1a,#c9a84c);color:#111;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;font-family:Poppins,sans-serif;margin-bottom:16px;box-sizing:border-box;">
+        <i class="fa-solid fa-cloud-arrow-up"></i> 📸 Photo Upload Karo
+      </label>
+      <input type="file" id="galFileInput" accept="image/*" multiple style="display:none;" onchange="galleryBulkUpload(this)">
+
+      <!-- Upload progress area -->
+      <div id="galProgressArea" style="display:none;margin-bottom:16px;"></div>
+
+      <!-- Gallery Grid -->
+      <div class="gallery-grid" id="galleryGrid">
+        <div class="gal-empty" style="grid-column:1/-1;">
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          <p>Gallery load ho rahi hai...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- URL Copy Toast -->
+    <div id="urlCopiedBadge" style="position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:#c9a84c;color:#111;padding:12px 24px;border-radius:50px;font-weight:700;font-size:14px;transition:0.3s;z-index:99999;pointer-events:none;opacity:0;">
+      ✅ URL Copy Ho Gayi!
+    </div>
+  </div>
+
+</div>
+</div>
+<div id="notifOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9998;" onclick="closeNotifPanel()"></div>
+<div id="notifPanel" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#111;border-radius:24px 24px 0 0;padding:28px 24px 44px;z-index:9999;border-top:1px solid #2a2a2a;max-width:500px;margin:auto;">
+  <h3 style="color:#f0f0f0;margin-bottom:6px;display:flex;align-items:center;gap:10px;">
+    <i class="fa-solid fa-bell" style="color:#c9a84c;"></i> Push Notification Bhejo
+  </h3>
+  <p style="color:#666;font-size:13px;margin-bottom:20px;">Sabhi customers ko notification jaayegi</p>
+  <div style="margin-bottom:14px;">
+    <label style="font-size:13px;font-weight:600;color:#aaa;display:block;margin-bottom:6px;">Title</label>
+    <input id="notifTitle" type="text" value="Fashion Empire 👑" style="width:100%;padding:12px 16px;border:2px solid #2a2a2a;border-radius:12px;background:#1a1a1a;color:#f0f0f0;font-family:Poppins,sans-serif;font-size:14px;outline:none;">
+  </div>
+  <div style="margin-bottom:14px;">
+    <label style="font-size:13px;font-weight:600;color:#aaa;display:block;margin-bottom:6px;">Message</label>
+    <textarea id="notifBody" rows="3" style="width:100%;padding:12px 16px;border:2px solid #2a2a2a;border-radius:12px;background:#1a1a1a;color:#f0f0f0;font-family:Poppins,sans-serif;font-size:14px;outline:none;resize:none;">🔥 Naye products aaye hain! Abhi dekho aur order karo.</textarea>
+  </div>
+  <div style="margin-bottom:20px;">
+    <label style="font-size:13px;font-weight:600;color:#aaa;display:block;margin-bottom:6px;">Link (optional)</label>
+    <input id="notifUrl" type="url" value="https://fashionempireonline.vercel.app" style="width:100%;padding:12px 16px;border:2px solid #2a2a2a;border-radius:12px;background:#1a1a1a;color:#f0f0f0;font-family:Poppins,sans-serif;font-size:14px;outline:none;">
+  </div>
+  <button onclick="sendNotification()" style="width:100%;padding:15px;background:linear-gradient(135deg,#1a1a1a,#c9a84c);color:#111;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:Poppins,sans-serif;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:12px;">
+    <i class="fa-solid fa-paper-plane"></i> <span id="notifBtnTxt">Notification Bhejo</span>
+  </button>
+  <button onclick="closeNotifPanel()" style="width:100%;padding:13px;background:#1a1a1a;color:#aaa;border:1px solid #2a2a2a;border-radius:14px;font-size:14px;font-weight:600;cursor:pointer;font-family:Poppins,sans-serif;">Cancel</button>
+</div>
+
+<script type="module" src="admin_script.js"></script>
+</body>
+</html>
